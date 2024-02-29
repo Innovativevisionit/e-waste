@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Waste To Wealth</string>
+    <string name="dashboard_item_2">Dashboard Item 2</string>
+    <string name="dashboard_item_1">Dashboard Item 1</string>
+    <string name="no_name">No Name</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="course_rating">Course Rating</string>
+    <string name="course_name">Course Name</string>
+    <string name="store_name">Store Name</string>
+    <string name="location">Location</string>
+    <string name="saved">Saved</string>
+</resources>

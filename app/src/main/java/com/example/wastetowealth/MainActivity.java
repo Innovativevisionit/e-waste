@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.wastetowealth.Admin.AdminDashboard;
+import com.example.wastetowealth.ShopOwner.DashboardSo;
 import com.example.wastetowealth.api.LoginApi;
 import com.example.wastetowealth.model.LoginModel;
 import com.example.wastetowealth.retrofit.RetrofitService;
@@ -21,9 +24,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        System.out.println("hello");
+        setContentView(R.layout.activity_login_screen);
         initializeComponents();
+        Button registerButton = findViewById(R.id.registerNow);
+        registerButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {
@@ -39,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             String password = getPassword.getText().toString();
 
             LoginModel loginModel = new LoginModel();
-            loginModel.setEmpId(    email);
+            loginModel.setEmail(email);
             loginModel.setPassword(password);
 
             loginApi.doLogin(loginModel)
@@ -49,9 +56,20 @@ public class MainActivity extends AppCompatActivity {
                                     System.out.println(response.body());
                                     if (response.isSuccessful()) {
                                         Toast.makeText(MainActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                        Intent intent;
+                                        if(response.body().getRoles().contains("Employee")) {
+                                            intent = new Intent(MainActivity.this, DashboardActivity.class);
+                                        }else if(response.body().getRoles().contains("Admin")){
+                                            intent = new Intent(MainActivity.this, AdminDashboard.class);
+                                        }else{
+                                            intent = new Intent(MainActivity.this, DashboardSo.class);
+                                        }
                                         assert response.body() != null;
-                                        intent.putExtra("username", response.body().getEmpId());
+
+                                        System.out.println(response.body().getUserName());
+
+                                        intent.putExtra("username", response.body().getUserName());
+                                        intent.putExtra("email", response.body().getEmail());
                                         startActivity(intent);
                                     }else{
                                         Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();

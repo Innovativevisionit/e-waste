@@ -1,53 +1,127 @@
 package com.example.wastetowealth;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
 
-import com.example.wastetowealth.adapter.RecyclerAdapter;
-import com.example.wastetowealth.model.DashboardCards;
+import com.example.wastetowealth.databinding.ActivityMainBinding;
+import com.example.wastetowealth.databinding.DashboardActivityBinding;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class DashboardActivity extends AppCompatActivity implements RecyclerAdapter.OnItemClickListener  {
-    private ArrayList<DashboardCards> courseModelArrayList;
+public class DashboardActivity extends AppCompatActivity  {
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    DashboardActivityBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard_activity);
-        RecyclerView courseRV = findViewById(R.id.dashCards);
+        binding = DashboardActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new HomeFragment())
+                    .commit();
+        }
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+            if (item.getItemId() == R.id.home) {
+                // Handle Home item click
+                selectedFragment = new HomeFragment();
+            } else if (item.getItemId() == R.id.search) {
+                // Handle Search item click
+                selectedFragment = new SavedFragment();
+            } else if (item.getItemId() == R.id.add) {
+                // Handle Add item click
+                dispatchTakePictureIntent();
+            } else if (item.getItemId() == R.id.setting) {
+                // Handle Settings item click
+                selectedFragment = new ProfileFragment();
+            } else if (item.getItemId() == R.id.bottomProfile) {
+                // Handle Profile item click
+                selectedFragment = new ProfileFragment();
+            }
+            Log.d("DashboardActivity", "Selected item: " + selectedFragment);
 
-        // Here, we have created new array list and added data to it
-        courseModelArrayList = new ArrayList<DashboardCards>();
-        courseModelArrayList.add(new DashboardCards("DSA in Java", "Cuddalore", R.drawable.purple));
-        courseModelArrayList.add(new DashboardCards("Java Course", "Cuddalore", R.drawable.purple));
-        courseModelArrayList.add(new DashboardCards("C++ Course", "Cuddalore", R.drawable.purple));
-        courseModelArrayList.add(new DashboardCards("DSA in C++", "Cuddalore", R.drawable.purple));
-        courseModelArrayList.add(new DashboardCards("Kotlin for Android", "google", R.drawable.purple));
-        courseModelArrayList.add(new DashboardCards("Java for Android", "Cuddalore", R.drawable.purple));
-        courseModelArrayList.add(new DashboardCards("HTML and CSS", "Cuddalore", R.drawable.purple));
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, selectedFragment)
+                        .commit();
+            }
 
-        RecyclerAdapter courseAdapter = new RecyclerAdapter(this, courseModelArrayList);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        courseRV.setLayoutManager(layoutManager);
-        courseRV.setAdapter(courseAdapter);
+            return true;
+        });
     }
 
-    @Override
-    public void onItemClick(int position) {
-        DashboardCards clickedItem = courseModelArrayList.get(position);
-        // Create an Intent to navigate to the details activity
-        Intent intent = new Intent(DashboardActivity.this, ProfileActivity.class);
-        // Pass data to the details activity using Intent extras
-        intent.putExtra("storeName", clickedItem.getStoreName());
-        intent.putExtra("location", clickedItem.getLocation());
-        // Start the details activity
+    private void dispatchTakePictureIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+        Intent intent = new Intent(this, AddPosts.class);
         startActivity(intent);
+
+    }
+
+    // Handle result of the camera intent (optional)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            // The image has been captured, you can handle the result here
+            // For example, you can get the image from the Intent data
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            // Save the image to a file
+            File imageFile = saveImageToFile(imageBitmap);
+
+            // Pass the file URI to ProfileActivity
+            Intent intent = new Intent(this, AddPosts.class);
+            intent.putExtra("photoUri", imageFile.toURI().toString());
+            startActivity(intent);
+            // Do something with the imageBitmap
+        }
+    }
+    public static File saveImageToFile(Bitmap imageBitmap) {
+        // Create a directory for your images if it doesn't exist
+        File directory = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "WasteToWealth");
+        System.out.println("Directory" + directory);
+        if (!directory.exists()) {
+            directory.mkdirs(); // Make directories if they don't exist
+        }
+
+        // Create a unique filename for the image
+        String filename = "image_" + System.currentTimeMillis() + ".jpg";
+
+        // Create a new file object
+        File imageFile = new File(directory, filename);
+
+        try {
+            // Create a FileOutputStream to write the bitmap to the file
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+
+            // Compress the bitmap and write it to the output stream
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+            // Flush and close the output stream
+            outputStream.flush();
+            outputStream.close();
+
+            return imageFile;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // Return null if an error occurs
+        }
     }
 }

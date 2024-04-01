@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/my_green"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/centering_guide"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="341dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="35dp"
+                app:cardCornerRadius="30dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/dynamicImageStore"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="219dp"
+                        android:layout_marginBottom="16dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/purple" />
+
+                    <TextView
+                        android:id="@+id/storeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="130dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Krishna Store Agencies"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/locationText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/storeText"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="130dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Cuddalore"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/ratingText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/locationText"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="130dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Rating :"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ratingText"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toEndOf="@id/ratingText"
+                        android:text=" 3.2/5" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical"
+                        tools:ignore="MissingConstraints">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                            <TextView
+                                android:id="@+id/textCategoryHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Category"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"/>
+
+                            <TextView
+                                android:id="@+id/textCategoryDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textCategoryHeader"
+                                android:layout_alignStart="@id/textCategoryHeader"
+                                android:layout_marginTop="8dp"
+                                android:text="Category description goes here"/>
+
+                            <!-- Recycling Method Section -->
+                            <TextView
+                                android:id="@+id/textRecyclingMethodHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Recycling Method"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/textCategoryDescription"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/textRecyclingMethodDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textRecyclingMethodHeader"
+                                android:layout_alignStart="@id/textRecyclingMethodHeader"
+                                android:layout_marginTop="8dp"
+                                android:text="Recycling method description goes here"/>
+
+                            <!-- Handling Hazard Section -->
+                            <TextView
+                                android:id="@+id/textHandlingHazardHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Handling Hazard"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/textRecyclingMethodDescription"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/textHandlingHazardDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textHandlingHazardHeader"
+                                android:layout_alignStart="@id/textHandlingHazardHeader"
+                                android:layout_marginTop="8dp"
+                                android:text="Handling hazard description goes here"/>
+
+                            <!-- Website Section -->
+                            <TextView
+                                android:id="@+id/textWebsiteHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Website"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/textHandlingHazardDescription"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/textWebsiteDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textWebsiteHeader"
+                                android:layout_alignStart="@id/textWebsiteHeader"
+                                android:layout_marginTop="8dp"
+                                android:text="Website description goes here"/>
+
+                            <!-- Social Link Section -->
+                            <TextView
+                                android:id="@+id/textSocialLinkHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Social Link"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/textWebsiteDescription"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/textSocialLinkDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textSocialLinkHeader"
+                                android:layout_alignStart="@id/textSocialLinkHeader"
+                                android:layout_marginTop="8dp"
+                                android:text="Social link description goes here"/>
+
+                            <!-- Contact Number Section -->
+                            <TextView
+                                android:id="@+id/textContactNumberHeader"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Contact Number"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/textSocialLinkDescription"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/textContactNumberDescription"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textContactNumberHeader"
+                                android:layout_alignStart="@id/textContactNumberHeader"
+                                android:layout_marginTop="8dp"
+                                android:text="Contact number description goes here"/>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|end"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <Button
+            android:id="@+id/approach"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approach" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

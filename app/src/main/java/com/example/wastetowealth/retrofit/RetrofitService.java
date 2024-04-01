@@ -7,14 +7,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService {
     private Retrofit retrofit;
+
     public RetrofitService() {
         initializeRetrofit();
     }
+
     private void initializeRetrofit() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://216.48.191.170/budgieqa/api/")
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
-                .build();
+        retrofit = new Retrofit.Builder().baseUrl("http://192.168.1.8:8081/api/").addConverterFactory(GsonConverterFactory.create(new Gson())).build();
     }
 
     public Retrofit getRetrofit() {

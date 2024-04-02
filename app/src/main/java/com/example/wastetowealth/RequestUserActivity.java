@@ -25,7 +25,6 @@ import retrofit2.Response;
 public class RequestUserActivity extends AppCompatActivity {
 
     private ArrayList<RequestUserModel> userModelArrayList;
-
     private RequestUserAdapter requestUserAdapter;
     private RecyclerView categoryRV;
     @Override
@@ -52,7 +51,6 @@ public class RequestUserActivity extends AppCompatActivity {
     private void fetchUserRequest() {
         RetrofitService retrofitService = new RetrofitService();
         MasterApis apiService = retrofitService.getRetrofit().create(MasterApis.class);
-
 
     }
 }

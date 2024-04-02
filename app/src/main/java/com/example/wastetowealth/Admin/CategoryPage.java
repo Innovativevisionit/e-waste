@@ -10,7 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.wastetowealth.DashboardActivity;
@@ -40,6 +43,7 @@ public class CategoryPage extends AppCompatActivity {
     private Category categoryAdapter;
     private List<CategoryModel> categoryList;
 
+    String getCategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,27 @@ public class CategoryPage extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.input_category, null);
 
         // Find the TextInputEditText in the custom layout
-        final TextInputEditText editTextCategory = dialogView.findViewById(R.id.editTextCategory);
+        final Spinner editTextCategory = dialogView.findViewById(R.id.editTextCategory);
+
+        List<String> categoryList = new ArrayList<>();
+        categoryList.add("mobile");
+        categoryList.add("plastics");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(CategoryPage.this,
+                android.R.layout.simple_spinner_item,
+                categoryList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editTextCategory.setAdapter(adapter);
+
+        editTextCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getCategory = categoryList.get(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Category")
@@ -71,7 +95,9 @@ public class CategoryPage extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Handle positive button click
-                        String category = editTextCategory.getText().toString().trim();
+//                        String category = editTextCategory.getText().toString().trim();
+                        String category = getCategory;
+
                         if (!category.isEmpty()) {
                             addCategory(category);
                         } else {

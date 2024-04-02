@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.wastetowealth.R;
+import com.example.wastetowealth.RequestUserActivity;
 
 import java.util.Locale;
 
@@ -31,6 +32,7 @@ public class AdminDashboard extends AppCompatActivity {
 
         CardView category = findViewById(R.id.category);
         CardView delivery = findViewById(R.id.deliveryUser);
+        CardView requestUser = findViewById(R.id.requestUser);
 
         category.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDashboard.this, CategoryPage.class);
@@ -41,6 +43,9 @@ public class AdminDashboard extends AppCompatActivity {
             Intent intent = new Intent(AdminDashboard.this, DeliveryPage.class);
             startActivity(intent);
         });
-        
+        requestUser.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboard.this, RequestUserActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -29,7 +29,7 @@ public interface MasterApis {
     Call<List<ShopRegisterFetch>> getShopList();
     @Multipart
     @POST("shop/register")
-    Call<ShopRegister> submitFormWithImages(
+    Call<Object> submitFormWithImages(
             @Part("shopName") RequestBody shopName,
             @Part("contactNo") RequestBody contactNo,
             @Part MultipartBody.Part[] images,

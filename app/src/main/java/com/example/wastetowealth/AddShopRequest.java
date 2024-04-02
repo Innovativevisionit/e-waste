@@ -2,6 +2,8 @@ package com.example.wastetowealth;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import com.example.wastetowealth.model.ShopRegister;
 import com.example.wastetowealth.retrofit.RetrofitService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -92,8 +95,7 @@ public class AddShopRequest extends AppCompatActivity {
         String hazardValue = hazard.getText().toString();
         String websiteValue = website.getText().toString();
         String socialLinkValue = socialLink.getText().toString();
-        // Convert plain text fields to RequestBody
-        // Convert plain text fields to RequestBody
+
         RequestBody shopNameBody = RequestBody.create(MediaType.parse("text/plain"), shopNameValue);
         RequestBody contactNoBody = RequestBody.create(MediaType.parse("text/plain"), contactNoValue);
         RequestBody locationBody = RequestBody.create(MediaType.parse("text/plain"), locationValue);
@@ -116,12 +118,11 @@ public class AddShopRequest extends AppCompatActivity {
                 ", socialLinkBody='" + socialLinkValue + '\'' +
                 '}';
 
-        System.out.println(data);
-        // Retrofit service call
+
         RetrofitService retrofitService = new RetrofitService();
         MasterApis masterApis = retrofitService.getRetrofit().create(MasterApis.class);
 
-        Call<ShopRegister> call = masterApis.submitFormWithImages(
+        Call<Object> call = masterApis.submitFormWithImages(
                 shopNameBody,
                 contactNoBody,
                 imageParts,
@@ -133,14 +134,20 @@ public class AddShopRequest extends AppCompatActivity {
                 socialLinkBody
         );
 
-
-
         // Retrofit enqueue
-        call.enqueue(new Callback<ShopRegister>() {
+        call.enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<ShopRegister> call, Response<ShopRegister> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.isSuccessful()) {
-                    // Handle successful response
+                    System.out.println("Success");
+                    Intent intent = new Intent(AddShopRequest.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish();
+//                    Fragment profileFragment = new ProfileFragment();
+//                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(android.R.id.content, profileFragment); // Replace the entire content view
+//                    transaction.addToBackStack(null); // Optional: Add to back stack if needed
+//                    transaction.commit();
                     Toast.makeText(AddShopRequest.this, "Form submitted successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     // Handle unsuccessful response
@@ -149,8 +156,9 @@ public class AddShopRequest extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ShopRegister> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
                 // Handle failure
+                t.printStackTrace();
                 Toast.makeText(AddShopRequest.this, "Error submitting form: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

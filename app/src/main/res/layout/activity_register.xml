@@ -48,14 +48,16 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/button_background_green2">
 
-            <TextView
+            <EditText
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Name"
+                android:hint="Your Name"
                 android:textColor="#05ACA3"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:backgroundTint="@android:color/transparent"
+                android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,14 +71,16 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/button_background_green2">
 
-            <TextView
+            <EditText
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Email"
+                android:hint="Your Email"
                 android:textColor="#05ACA3"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:backgroundTint="@android:color/transparent"
+                android:inputType="textEmailAddress"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,14 +94,16 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/button_background_green2">
 
-            <TextView
+            <EditText
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:hint="Password"
                 android:textColor="#05ACA3"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:backgroundTint="@android:color/transparent"
+                android:inputType="textPassword"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -111,14 +117,16 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/button_background_green2">
 
-            <TextView
+            <EditText
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
+                android:hint="Location"
                 android:textColor="#05ACA3"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:backgroundTint="@android:color/transparent"
+                android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,8 +140,8 @@
             android:layout_marginBottom="12dp"
             android:background="@drawable/button_background_green1">
 
-            <TextView
-                android:id="@+id/textView15"
+            <Button
+                android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SignUp"

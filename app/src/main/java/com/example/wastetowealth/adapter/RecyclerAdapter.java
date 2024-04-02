@@ -14,13 +14,12 @@ import com.example.wastetowealth.HomeFragment;
 import com.example.wastetowealth.R;
 import com.example.wastetowealth.model.DashboardCards;
 import com.example.wastetowealth.model.ShopRegisterFetch;
+import com.example.wastetowealth.retrofit.ApiConfig;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private String IMAGE_URL = "http://192.168.1.8:8081/uploadsProof/";
-
     private final Context context;
     private final List<ShopRegisterFetch> dataList;
     private OnItemClickListener listener;
@@ -50,7 +49,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         ShopRegisterFetch item = dataList.get(position);
         // Bind data to views in the ViewHolder
         if (item.getImages() != null && item.getImages().length > 0) {
-            Picasso.get().load(IMAGE_URL + item.getImages()[0]).into(holder.imageView);
+            Picasso.get().load(ApiConfig.IMAGE_URL + item.getImages()[0]).into(holder.imageView);
         } else {
             Picasso.get().load(R.drawable.purple).into(holder.imageView);
         }        holder.storeNameTextView.setText(item.getShopName());

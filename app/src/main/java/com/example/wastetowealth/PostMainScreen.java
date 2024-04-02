@@ -21,7 +21,7 @@ public class PostMainScreen extends AppCompatActivity implements RecyclerAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_main_screen);
 
-        initData();
+//        initData();
 //        ImageView heart = findViewById(R.id.heart);
 //
 //
@@ -46,22 +46,22 @@ public class PostMainScreen extends AppCompatActivity implements RecyclerAdapter
 //    }
 
 
-    private void initData() {
-        userPostCards = new ArrayList<>();
-        userPostCards.add(new UserPostCards(R.drawable.purple,"DSA in Java", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"Java Course", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"C++ Course", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"DSA in C++", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"Kotlin for Android", "google", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"Java for Android", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
-    }
+//    private void initData() {
+//        userPostCards = new ArrayList<>();
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"DSA in Java", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"Java Course", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"C++ Course", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"DSA in C++", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"Kotlin for Android", "google", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"Java for Android", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//        userPostCards.add(new UserPostCards(R.drawable.purple,"HTML and CSS", "Cuddalore", R.drawable.heart__2_,R.drawable.send,R.drawable.kebab));
+//    }
 
     @Override
     public void onItemClick(int position) {

@@ -5,8 +5,10 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.wastetowealth.MainActivity;
 import com.example.wastetowealth.R;
 
 import java.util.Locale;
@@ -31,9 +33,15 @@ public class AdminDashboard extends AppCompatActivity {
 
         CardView category = findViewById(R.id.category);
         CardView delivery = findViewById(R.id.deliveryUser);
+        Button logout = findViewById(R.id.adminLogoutBtn);
 
         category.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDashboard.this, CategoryPage.class);
+            startActivity(intent);
+        });
+
+        logout.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboard.this, MainActivity.class);
             startActivity(intent);
         });
 

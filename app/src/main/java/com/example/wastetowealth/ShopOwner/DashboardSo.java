@@ -5,10 +5,12 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.example.wastetowealth.Admin.AdminDashboard;
 import com.example.wastetowealth.Admin.CategoryPage;
 import com.example.wastetowealth.Admin.DeliveryPage;
+import com.example.wastetowealth.MainActivity;
 import com.example.wastetowealth.R;
 
 public class DashboardSo extends AppCompatActivity {
@@ -22,9 +24,15 @@ public class DashboardSo extends AppCompatActivity {
         CardView requestPost = findViewById(R.id.requestPost);
         CardView categoryPost = findViewById(R.id.categoryPost);
         CardView post = findViewById(R.id.post);
+        Button logout = findViewById(R.id.adminLogout);
 
         profile.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardSo.this, AdminProfile.class);
+            startActivity(intent);
+        });
+
+        logout.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardSo.this, MainActivity.class);
             startActivity(intent);
         });
 

@@ -16,6 +16,13 @@ public class PostData {
     private String maxAmount;
     private String minAmount;
 
+    public PostData(String category, String brand, String condition, String maxAmount) {
+        this.categories = category;
+        this.brand = brand;
+        this.condition = condition;
+        this.maxAmount = maxAmount;
+    }
+
     @Override
     public String toString() {
         return "PostData{" +

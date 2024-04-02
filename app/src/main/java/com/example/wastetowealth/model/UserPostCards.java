@@ -2,7 +2,7 @@ package com.example.wastetowealth.model;
 
 public class UserPostCards {
 
-    private int postImage;
+    private String postImage;
     private String postName;
     private String category;
     private int likeOrUnlike;
@@ -12,7 +12,7 @@ public class UserPostCards {
     public UserPostCards() {
     }
 
-    public UserPostCards(int postImage, String postName, String category, int likeOrUnlike, int share, int options) {
+    public UserPostCards(String postImage, String postName, String category, int likeOrUnlike, int share, int options) {
         this.postImage = postImage;
         this.postName = postName;
         this.category = category;
@@ -21,11 +21,17 @@ public class UserPostCards {
         this.options = options;
     }
 
-    public int getPostImage() {
+    public UserPostCards(String postImage, String postName, String category) {
+        this.postImage = postImage;
+        this.postName = postName;
+        this.category = category;
+    }
+
+    public String getPostImage() {
         return postImage;
     }
 
-    public void setPostImage(int postImage) {
+    public void setPostImage(String postImage) {
         this.postImage = postImage;
     }
 

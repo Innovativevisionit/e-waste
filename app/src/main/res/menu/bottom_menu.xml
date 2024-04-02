@@ -7,7 +7,7 @@
         />
     <item
         android:id="@+id/search"
-        android:title="@string/search"
+        android:title="@string/shop"
         android:icon="@drawable/icons8_search"
         />
     <item
@@ -16,7 +16,7 @@
         android:title="" />
     <item
         android:id="@+id/setting"
-        android:title="@string/saved"
+        android:title="@string/ownPost"
         android:icon="@drawable/saved_windows"
         />
     <item

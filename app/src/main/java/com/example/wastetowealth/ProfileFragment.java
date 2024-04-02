@@ -24,11 +24,18 @@ public class ProfileFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_profile, container, false);
         AppCompatButton reqToSO = view.findViewById(R.id.reqToSO);
         AppCompatButton personalInformation = view.findViewById(R.id.personalInformation);
-
+        AppCompatButton logoutProfile = view.findViewById(R.id.logoutProfile);
         personalInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ProfilePage.class);
+                startActivity(intent);
+            }
+        });
+        logoutProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }
         });

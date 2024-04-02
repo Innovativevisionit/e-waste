@@ -30,6 +30,7 @@ public class AllAdminPost extends AppCompatActivity implements RecyclerAdapter.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_admin_post);
+        courseRV = findViewById(R.id.adminDashCards);
         getShopList();
         setupRecyclerView();
     }

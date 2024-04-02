@@ -33,19 +33,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <!-- CardView with store information -->
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="130dp"
-                android:layout_marginTop="50dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:srcCompat="@drawable/profile" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -58,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="70dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -97,7 +85,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="Shared"
                                         android:textSize="20sp"
-                                        android:layout_marginStart="280dp"/>
+                                        android:layout_marginStart="260dp"/>
 
                                 </RelativeLayout>
 
@@ -109,16 +97,16 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="40"
+                                        android:text="4"
                                         android:textSize="20sp"
                                         android:layout_marginStart="30dp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="70"
+                                        android:text="7"
                                         android:textSize="20sp"
-                                        android:layout_marginStart="300dp"/>
+                                        android:layout_marginStart="280dp"/>
 
                                 </RelativeLayout>
                             </LinearLayout>

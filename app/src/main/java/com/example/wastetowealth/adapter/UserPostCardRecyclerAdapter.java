@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wastetowealth.R;
 import com.example.wastetowealth.model.UserPostCards;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,21 +47,24 @@ public class UserPostCardRecyclerAdapter extends RecyclerView.Adapter<UserPostCa
     public void onBindViewHolder(@NonNull UserPostViewHolder holder, int position) {
         final int currentPosition = holder.getAdapterPosition();
         UserPostCards userPostCard = userPostCardsList.get(currentPosition);
-        holder.productImage.setImageResource(userPostCard.getPostImage());
+        Picasso.get()
+                .load(userPostCard.getPostImage()) // Image URL from the current item
+                .placeholder(R.drawable.purple) // Placeholder image while loading
+                .into(holder.productImage);
         holder.productName.setText(userPostCard.getPostName());
         holder.category.setText(userPostCard.getCategory());
-        holder.likeOrUnlike.setImageResource(userPostCard.getLikeOrUnlike());
-        holder.send.setImageResource(userPostCard.getShare());
-        holder.options.setImageResource(userPostCard.getOptions());
+//        holder.likeOrUnlike.setImageResource(userPostCard.getLikeOrUnlike());
+//        holder.send.setImageResource(userPostCard.getShare());
+//        holder.options.setImageResource(userPostCard.getOptions());
 
-        holder.likeOrUnlike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickListener != null) {
-                    clickListener.onHeartClick(currentPosition);
-                }
-            }
-        });
+//        holder.likeOrUnlike.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (clickListener != null) {
+//                    clickListener.onHeartClick(currentPosition);
+//                }
+//            }
+//        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,18 +86,18 @@ public class UserPostCardRecyclerAdapter extends RecyclerView.Adapter<UserPostCa
         ImageView productImage;
         TextView productName;
         TextView category;
-        ImageView likeOrUnlike;
-        ImageView send;
-        ImageView options;
+//        ImageView likeOrUnlike;
+//        ImageView send;
+//        ImageView options;
 
         public UserPostViewHolder(@NonNull View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.imageStore);
             productName = itemView.findViewById(R.id.productName);
             category = itemView.findViewById(R.id.category);
-            likeOrUnlike = itemView.findViewById(R.id.heart);
-            send = itemView.findViewById(R.id.send);
-            options = itemView.findViewById(R.id.kebab);
+//            likeOrUnlike = itemView.findViewById(R.id.heart);
+//            send = itemView.findViewById(R.id.send);
+//            options = itemView.findViewById(R.id.kebab);
 
             // Add onClickListener or any other operation if required
         }

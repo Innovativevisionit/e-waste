@@ -95,56 +95,25 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button4"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/btn_background_1"
-                    android:drawableStart="@drawable/ic_4"
-                    android:drawablePadding="20dp"
-                    android:paddingStart="20dp"
-                    android:text="Notification"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logoutProfile"
+        style="@android:style/Widget.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/btn_background_2"
+        android:text="Logout"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button5"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/btn_background_1"
-                    android:drawableStart="@drawable/ic_4"
-                    android:drawablePadding="20dp"
-                    android:paddingStart="20dp"
-                    android:text="About me"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/logout"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="32dp"
-                    android:background="@drawable/btn_background_2"
-                    android:text="Logout"
-                    android:textColor="#ffffff"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

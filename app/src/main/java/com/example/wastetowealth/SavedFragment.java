@@ -19,6 +19,7 @@ import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.DashboardCards;
 import com.example.wastetowealth.model.ShopRegister;
 import com.example.wastetowealth.model.ShopRegisterFetch;
+import com.example.wastetowealth.retrofit.ApiConfig;
 import com.example.wastetowealth.retrofit.RetrofitService;
 
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ import retrofit2.Response;
 public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemClickListener   {
     private ArrayList<ShopRegisterFetch> courseModelArrayList;
     private RecyclerView courseRV;
-    private String IMAGE_URL = "http://192.168.1.8:8081/uploadsProof/";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
                     courseModelArrayList.clear();
                     for (ShopRegisterFetch shop : response.body()) {
                             ShopRegisterFetch shopFetch = new ShopRegisterFetch();
-                        System.out.println(shop.toString());
+                            System.out.println(shop.toString());
                             shopFetch.setShopName(shop.getShopName());
                             shopFetch.setCategory(shop.getCategory());
                             shopFetch.setContactNo(shop.getContactNo());
@@ -111,4 +111,5 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
         // Start the details activity
         startActivity(intent);
     }
+
 }

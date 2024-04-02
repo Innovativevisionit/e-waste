@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="750dp"
     android:paddingTop="35dp"
+    android:paddingBottom="35dp"
     android:background="@color/my_green"
     tools:context=".SavedFragment">
 

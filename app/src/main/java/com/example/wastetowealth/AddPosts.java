@@ -51,7 +51,7 @@ public class AddPosts extends AppCompatActivity {
     List<String> imagePaths = new ArrayList<>();
     private RecyclerView recyclerView;
     private ImageRecycler adapter;
-SwitchMaterial toggleButton;
+    SwitchMaterial toggleButton;
     TextInputEditText shops, category, brand, model, condition, minAmount, maxAmount;
     Button submit, toggle;
     boolean isAllFieldsChecked = false;
@@ -163,7 +163,6 @@ SwitchMaterial toggleButton;
             }
         });;
     }
-
     private void popOpen() {
         toggle = findViewById(R.id.image_select);
         toggle.setOnClickListener(new View.OnClickListener() {
@@ -251,69 +250,58 @@ SwitchMaterial toggleButton;
         adapter.setImagePaths(imagePaths);
         adapter.notifyDataSetChanged();
     }
+
     public static Bitmap uriToBitmap(Context context, Uri uri) {
         try {
-            // Use ContentResolver to open an InputStream from the URI
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
             if (inputStream != null) {
-                // Decode the InputStream into a Bitmap using BitmapFactory
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                inputStream.close(); // Close the InputStream to release resources
-                return bitmap; // Return the Bitmap
+                inputStream.close();
+                return bitmap;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; // Return null if an error occurs
+        return null;
     }
+
     public static File saveImageToFile(Bitmap imageBitmap) {
-        // Create a directory for your images if it doesn't exist
         File directory = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "WasteToWealth");
         if (!directory.exists()) {
-            directory.mkdirs(); // Make directories if they don't exist
+            directory.mkdirs();
         }
 
-        // Create a unique filename for the image
         String filename = "image_" + System.currentTimeMillis() + ".jpg";
 
-        // Create a new file object
         File imageFile = new File(directory, filename);
 
         try {
-            // Create a FileOutputStream to write the bitmap to the file
             FileOutputStream outputStream = new FileOutputStream(imageFile);
-
-            // Compress the bitmap and write it to the output stream
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-
-            // Flush and close the output stream
             outputStream.flush();
             outputStream.close();
 
             return imageFile;
         } catch (IOException e) {
             e.printStackTrace();
-            return null; // Return null if an error occurs
+            return null;
         }
     }
-    private void hideAndShow() {
 
+    private void hideAndShow() {
         SwitchMaterial switchMaterial = findViewById(R.id.shop_all);
         TextInputLayout shopLayout = findViewById(R.id.shop);
         TextInputEditText shopText = findViewById(R.id.shop_text);
         switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Show or hide the shop_text field based on the switch state
                 if (isChecked) {
-                    // Show the shop_text field
                     shopLayout.setVisibility(View.VISIBLE);
                     shopText.setVisibility(View.VISIBLE);
                 } else {
-                    // Hide the shop_text field
                     shopLayout.setVisibility(View.GONE);
                     shopText.setVisibility(View.GONE);
                 }

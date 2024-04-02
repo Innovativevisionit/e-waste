@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso;
 import java.util.Random;
 
 public class DynamicStoreCard extends AppCompatActivity {
-    private String IMAGE_URL = "http://192.168.1.8:8081/uploadsProof/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

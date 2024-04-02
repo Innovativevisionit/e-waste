@@ -16,13 +16,13 @@ import com.example.wastetowealth.adapter.RecyclerAdapter;
 import com.example.wastetowealth.adapter.UserPostCardRecyclerAdapter;
 import com.example.wastetowealth.model.DashboardCards;
 import com.example.wastetowealth.model.UserPostCards;
+import com.example.wastetowealth.retrofit.ApiConfig;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapter.OnItemClickListener  {
     private ArrayList<UserPostCards> userPostCards;
     private RecyclerView courseRV;
-    private String IMAGE_URL = "http://192.168.1.8:8081/uploadsProof/";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,17 +34,17 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
     }
     private void initData() {
         userPostCards = new ArrayList<>();
-        userPostCards.add(new UserPostCards(IMAGE_URL +"fridge.jpg","Fridge", "Kitchen Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"fan.jpg","Fan", "Home Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"frameLight.jpg","Frame Light", "Decoration"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"grinder.jpg","Grinder", "Kitchen Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"junction.jpg","Junction", "Electronic Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"lap.jpg","Laptop", "Education"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"lcd_tv.jpg","LCD-TV", "Home Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"ledLights.jpg","LED Light", "Electronic Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"oldLap.jpg","Laptop", "Education"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"wm.jpg","Washing Machine", "Electronic Appliance"));
-        userPostCards.add(new UserPostCards(IMAGE_URL +"wires.jpg","Wires", "Electronic Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"fridge.jpg","Fridge", "Kitchen Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"fan.jpg","Fan", "Home Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"frameLight.jpg","Frame Light", "Decoration"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"grinder.jpg","Grinder", "Kitchen Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"junction.jpg","Junction", "Electronic Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"lap.jpg","Laptop", "Education"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"lcd_tv.jpg","LCD-TV", "Home Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"ledLights.jpg","LED Light", "Electronic Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"oldLap.jpg","Laptop", "Education"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"wm.jpg","Washing Machine", "Electronic Appliance"));
+        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"wires.jpg","Wires", "Electronic Appliance"));
     }
 
     private void setupRecyclerView() {

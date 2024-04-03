@@ -16,16 +16,21 @@ import android.provider.MediaStore;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.wastetowealth.adapter.ImageRecycler;
+import com.example.wastetowealth.api.CategoryApi;
 import com.example.wastetowealth.api.LoginApi;
 import com.example.wastetowealth.api.UserApi;
 import com.example.wastetowealth.databinding.ActivityAddPostsBinding;
+import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.PostData;
 import com.example.wastetowealth.retrofit.RetrofitService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -55,14 +60,17 @@ public class AddPosts extends AppCompatActivity {
     TextInputEditText shops, category, brand, model, condition, minAmount, maxAmount;
     Button submit, toggle;
     boolean isAllFieldsChecked = false;
+    Spinner categoryValue;
+    public ArrayList<CategoryModel> categoryArrayList;
 
-
+    String selectedCategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddPostsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         hideAndShow();
+        dropDownCategory();
         recyclerView = findViewById(R.id.allImages);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -71,7 +79,6 @@ public class AddPosts extends AppCompatActivity {
         popOpen();
         toggleButton = findViewById(R.id.shop_all);
         shops = findViewById(R.id.shop_text);
-        category = findViewById(R.id.category_text);
         brand = findViewById(R.id.brand_text);
         model = findViewById(R.id.model_text);
         condition = findViewById(R.id.condition_text);
@@ -96,10 +103,10 @@ public class AddPosts extends AppCompatActivity {
             shops.setError("This field is required");
             return false;
         }
-        if(category.length() == 0) {
-            category.setError("This field is required");
-            return false;
-        }
+//        if(category.length() == 0) {
+//            category.setError("This field is required");
+//            return false;
+//        }
         if(brand.length() == 0) {
             brand.setError("This field is required");
             return false;
@@ -130,7 +137,8 @@ public class AddPosts extends AppCompatActivity {
         shopId.add(shops.getText().toString());
         postData.setAllShop("Yes");
         postData.setShopId(shopId);
-        postData.setCategories(category.getText().toString());
+
+        postData.setCategories(selectedCategory);
         postData.setBrand(brand.getText().toString());
         postData.setModel(model.getText().toString());
         postData.setCondition(condition.getText().toString());
@@ -305,6 +313,51 @@ public class AddPosts extends AppCompatActivity {
                     shopLayout.setVisibility(View.GONE);
                     shopText.setVisibility(View.GONE);
                 }
+            }
+        });
+    }
+
+    private void dropDownCategory(){
+
+        categoryValue = findViewById(R.id.category_text);
+
+        RetrofitService retrofitService = new RetrofitService();
+        CategoryApi categoryApi = retrofitService.getRetrofit().create(CategoryApi.class);
+
+        categoryArrayList = new ArrayList<>();
+        categoryApi.listCategory()
+                .enqueue(new Callback<List<CategoryModel>>() {
+                    @Override
+                    public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
+                        if (response.isSuccessful()) {
+                            categoryArrayList.addAll(response.body());
+                            ArrayAdapter<CategoryModel> adapter = new ArrayAdapter(AddPosts.this,
+                                    android.R.layout.simple_spinner_item,
+                                    categoryArrayList);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            categoryValue.setAdapter(adapter);
+                        }else{
+                            Toast.makeText(AddPosts.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<CategoryModel>> call, Throwable t) {
+                        Toast.makeText(AddPosts.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        categoryValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = categoryArrayList.get(position).getName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
             }
         });
     }

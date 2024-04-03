@@ -15,10 +15,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.wastetowealth.api.CategoryApi;
 import com.example.wastetowealth.api.MasterApis;
+import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.ShopRegister;
 import com.example.wastetowealth.retrofit.RetrofitService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -49,11 +54,16 @@ public class AddShopRequest extends AppCompatActivity {
     ShopRegister shopRegister;
     List<Uri> selectedImages = new ArrayList<>(); // List to store selected images URIs
 
+    Spinner categoryValue;
+    public ArrayList<CategoryModel> categoryArrayList;
+    String selectedCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shop_request);
 
+        dropDownCategory();
         submit = findViewById(R.id.submit_button);
         popOpen();
 
@@ -82,7 +92,7 @@ public class AddShopRequest extends AppCompatActivity {
         shopName = findViewById(R.id.shop_name_text);
         contactNo = findViewById(R.id.contact_no_text);
         location = findViewById(R.id.location_text);
-        category = findViewById(R.id.category_text);
+//        category = findViewById(R.id.category_text);
         recycleMethods = findViewById(R.id.recycling_methods_text);
         hazard = findViewById(R.id.hazard);
         website = findViewById(R.id.website_text);
@@ -90,7 +100,8 @@ public class AddShopRequest extends AppCompatActivity {
         String shopNameValue = shopName.getText().toString();
         String contactNoValue = contactNo.getText().toString();
         String locationValue = location.getText().toString();
-        String categoryValue = category.getText().toString(); // Assuming category is a Spinner
+//        String categoryValue = category.getText().toString(); // Assuming category is a Spinner
+        String categoryValue = selectedCategory;
         String recycleMethodsValue = recycleMethods.getText().toString();
         String hazardValue = hazard.getText().toString();
         String websiteValue = website.getText().toString();
@@ -284,4 +295,48 @@ public class AddShopRequest extends AppCompatActivity {
 //                .show();
 //    }
 
+    private void dropDownCategory(){
+
+        categoryValue = findViewById(R.id.category_text);
+
+        RetrofitService retrofitService = new RetrofitService();
+        CategoryApi categoryApi = retrofitService.getRetrofit().create(CategoryApi.class);
+
+        categoryArrayList = new ArrayList<>();
+        categoryApi.listCategory()
+                .enqueue(new Callback<List<CategoryModel>>() {
+                    @Override
+                    public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
+                        if (response.isSuccessful()) {
+                            categoryArrayList.addAll(response.body());
+                            ArrayAdapter<CategoryModel> adapter = new ArrayAdapter(AddShopRequest.this,
+                                    android.R.layout.simple_spinner_item,
+                                    categoryArrayList);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            categoryValue.setAdapter(adapter);
+                        }else{
+                            Toast.makeText(AddShopRequest.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<CategoryModel>> call, Throwable t) {
+                        Toast.makeText(AddShopRequest.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        categoryValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = categoryArrayList.get(position).getName();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
 }

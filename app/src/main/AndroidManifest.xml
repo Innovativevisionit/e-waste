@@ -60,7 +60,7 @@
             android:name=".LoginScreen"
             android:exported="false" />
         <activity
-            android:name=".AddPosts"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,7 +74,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DynamicStoreCard" />
         <activity android:name=".PostMainScreen" />
-<!--        <activity android:name=".AddPosts" />-->
+        <activity android:name=".AddPosts" />
     </application>
 
 </manifest>

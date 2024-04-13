@@ -117,19 +117,6 @@ public class AddShopRequest extends AppCompatActivity {
         RequestBody socialLinkBody = RequestBody.create(MediaType.parse("text/plain"), socialLinkValue);
 
 
-        String data = "PostData{" +
-                "shopNameBody='" + shopNameValue + '\'' +
-                ", contactNoBody=" + contactNoValue +
-                ", locationBody='" + locationValue + '\'' +
-                ", images=" + Arrays.toString(imageParts) + // Assuming imageParts is an array
-                ", categoryBody='" + categoryValue + '\'' +
-                ", recycleMethodsBody='" + recycleMethodsValue + '\'' +
-                ", hazardBody='" + hazardValue + '\'' +
-                ", websiteBody='" + websiteValue + '\'' +
-                ", socialLinkBody='" + socialLinkValue + '\'' +
-                '}';
-
-
         RetrofitService retrofitService = new RetrofitService();
         MasterApis masterApis = retrofitService.getRetrofit().create(MasterApis.class);
 

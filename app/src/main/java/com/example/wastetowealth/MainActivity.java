@@ -12,6 +12,7 @@ import com.example.wastetowealth.Admin.AdminDashboard;
 import com.example.wastetowealth.ShopOwner.DashboardSo;
 import com.example.wastetowealth.api.LoginApi;
 import com.example.wastetowealth.model.LoginModel;
+import com.example.wastetowealth.retrofit.MySharedPreferences;
 import com.example.wastetowealth.retrofit.RetrofitService;
 import com.google.android.material.button.MaterialButton;
 
@@ -66,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         assert response.body() != null;
 
-                                        System.out.println(response.body().getUserName());
+                                        MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(MainActivity.this);
+                                        sharedPreferences.saveString("username", response.body().getUserName());
+                                        sharedPreferences.saveString("email", response.body().getEmail());
 
                                         intent.putExtra("username", response.body().getUserName());
                                         intent.putExtra("email", response.body().getEmail());

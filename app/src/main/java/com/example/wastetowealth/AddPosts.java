@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,9 +43,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,7 +66,10 @@ public class AddPosts extends AppCompatActivity {
     Button submit, toggle;
     boolean isAllFieldsChecked = false;
     Spinner categoryValue;
+    private String allShop = "";
     public ArrayList<CategoryModel> categoryArrayList;
+    List<Uri> selectedImages = new ArrayList<>(); // List to store selected images URIs
+
 
     String selectedCategory;
     @Override
@@ -129,48 +137,129 @@ public class AddPosts extends AppCompatActivity {
         }
         return true;
     }
-
     private void handleSubmit() {
-        // Create a PostData object with form data
-        PostData postData = new PostData();
-        List<String> shopId = new ArrayList<>();
-        shopId.add(shops.getText().toString());
-        postData.setAllShop("Yes");
-        postData.setShopId(shopId);
+        SwitchMaterial switchMaterial = findViewById(R.id.shop_all);
+        switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    allShop = "Yes";
+                } else {
+                    allShop = "No";
 
-        postData.setCategories(selectedCategory);
-        postData.setBrand(brand.getText().toString());
-        postData.setModel(model.getText().toString());
-        postData.setCondition(condition.getText().toString());
-        postData.setMinAmount(minAmount.getText().toString());
-        postData.setMaxAmount(maxAmount.getText().toString());
-        postData.setImages(imagePaths);
+                }
+            }
+        });
 
-        System.out.println("post data" + postData);
+        String shopNameValue = shops.getText().toString();
+        String brandValue = brand.getText().toString();
+        String modelValue = model.getText().toString();
+        String conditionValue = condition.getText().toString();
+        String minAmountValue = minAmount.getText().toString();
+        String maxAmountValue = maxAmount.getText().toString();
+
+        RequestBody shopNameBody = RequestBody.create(MediaType.parse("text/plain"), shopNameValue);
+        RequestBody allShopBody = RequestBody.create(MediaType.parse("text/plain"), allShop);
+        RequestBody brandBody = RequestBody.create(MediaType.parse("text/plain"), brandValue);
+        RequestBody modelBody = RequestBody.create(MediaType.parse("text/plain"), modelValue);
+        RequestBody conditionBody = RequestBody.create(MediaType.parse("text/plain"), conditionValue);
+        RequestBody minAmountBody = RequestBody.create(MediaType.parse("text/plain"), minAmountValue);
+        RequestBody maxAmountBody = RequestBody.create(MediaType.parse("text/plain"), maxAmountValue);
+        RequestBody categoriesBody = RequestBody.create(MediaType.parse("text/plain"), selectedCategory);
+
+        // Prepare list of image parts
+        MultipartBody.Part[] imageParts = new MultipartBody.Part[selectedImages.size()];
+        for (int i = 0; i < selectedImages.size(); i++) {
+            Uri uri = selectedImages.get(i);
+            String filePath = saveImageToFile(this, uri);
+            if (filePath != null) {
+                File file = new File(filePath);
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                imageParts[i] = MultipartBody.Part.createFormData("images", file.getName(), requestFile);
+            } else {
+                Log.e("YourClass", "File path is null for URI: " + uri.toString());
+                // Handle this case as per your app's requirements
+            }
+        }
 
         RetrofitService retrofitService = new RetrofitService();
         UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
 
-        Call<PostData> callApi = userApi.doPostData(postData);
+        Call<Object> call = userApi.doPostData(
+                shopNameBody,
+//                allShopBody,
+                brandBody,
+                modelBody,
+                conditionBody,
+                minAmountBody,
+                maxAmountBody,
+                categoriesBody,
+                imageParts
+        );
 
-        System.out.println("Call Api" + callApi);
-        callApi.enqueue(new Callback<PostData>() {
+        call.enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<PostData> call, Response<PostData> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.isSuccessful()) {
-                    System.out.println(response.body().toString());
+                    // Handle success
                     Toast.makeText(AddPosts.this, "Form submitted successfully", Toast.LENGTH_SHORT).show();
                 } else {
+                    // Handle failure
                     Toast.makeText(AddPosts.this, "Failed to submit form", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PostData> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
+                // Handle failure
+                Log.e("Retrofit", "Request failed: " + t.getMessage(), t);
                 Toast.makeText(AddPosts.this, "Network error. Please try again.", Toast.LENGTH_SHORT).show();
             }
-        });;
+        });
     }
+
+//    private void handleSubmit() {
+//        // Create a PostData object with form data
+//        PostData postData = new PostData();
+//        List<String> shopId = new ArrayList<>();
+//        shopId.add(shops.getText().toString());
+//        postData.setAllShop("Yes");
+//        postData.setShopId(shopId);
+//
+//        postData.setCategories(selectedCategory);
+//        postData.setBrand(brand.getText().toString());
+//        postData.setModel(model.getText().toString());
+//        postData.setCondition(condition.getText().toString());
+//        postData.setMinAmount(minAmount.getText().toString());
+//        postData.setMaxAmount(maxAmount.getText().toString());
+//        postData.setImages(imagePaths);
+//
+//        System.out.println("post data" + postData);
+//
+//        RetrofitService retrofitService = new RetrofitService();
+//        UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
+//
+//        Call<PostData> callApi = userApi.doPostData(postData);
+//
+//        System.out.println("Call Api" + callApi);
+//        callApi.enqueue(new Callback<PostData>() {
+//            @Override
+//            public void onResponse(Call<PostData> call, Response<PostData> response) {
+//                if (response.isSuccessful()) {
+//                    System.out.println(response.body().toString());
+//                    Toast.makeText(AddPosts.this, "Form submitted successfully", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(AddPosts.this, "Failed to submit form", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PostData> call, Throwable t) {
+//                Toast.makeText(AddPosts.this, "Network error. Please try again.", Toast.LENGTH_SHORT).show();
+//            }
+//        });;
+//    }
+
     private void popOpen() {
         toggle = findViewById(R.id.image_select);
         toggle.setOnClickListener(new View.OnClickListener() {
@@ -182,10 +271,7 @@ public class AddPosts extends AppCompatActivity {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.menu_camera) {
-                            dispatchTakePictureIntent();
-                            return true;
-                        } else if (item.getItemId() == R.id.menu_gallery) {
+                        if (item.getItemId() == R.id.menu_gallery) {
                             chooseImageFromGallery();
                             return true;
                         } else {
@@ -219,36 +305,25 @@ public class AddPosts extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                Bundle extras = data.getExtras();
-                if (extras != null && extras.containsKey("data")) {
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    File imageFile = saveImageToFile(imageBitmap);
-                    imagePaths.add(imageFile.getAbsolutePath());
-                    updateAdapter();
+                if (data != null && data.getData() != null) {
+                    Uri imageUri = data.getData();
+                    selectedImages.add(imageUri);
                 } else {
                     Toast.makeText(this, "Failed to capture image", Toast.LENGTH_SHORT).show();
                 }
             } else if (requestCode == REQUEST_IMAGE_GALLERY) {
                 if (data != null) {
-                    ClipData clipData = data.getClipData();
-                    if (clipData != null) {
-                        for (int i = 0; i < clipData.getItemCount(); i++) {
-                            Uri imageUri = clipData.getItemAt(i).getUri();
-                            Bitmap bitmap = uriToBitmap(this, imageUri);
-                            if (bitmap != null) {
-                                File imageFile = saveImageToFile(bitmap);
-                                imagePaths.add(imageFile.getAbsolutePath());
-                            }
-                        }
-                    } else {
-                        Uri imageUri = data.getData();
-                        Bitmap bitmap = uriToBitmap(this, imageUri);
-                        if (bitmap != null) {
-                            File imageFile = saveImageToFile(bitmap);
-                            imagePaths.add(imageFile.getAbsolutePath());
+                    Uri imageUri = data.getData();
+                    selectedImages.add(imageUri);
+
+                    // Handle multiple image selection
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            Uri uri = data.getClipData().getItemAt(i).getUri();
+                            selectedImages.add(uri);
                         }
                     }
-                    updateAdapter();
                 }
             }
         }
@@ -275,27 +350,43 @@ public class AddPosts extends AppCompatActivity {
         return null;
     }
 
-    public static File saveImageToFile(Bitmap imageBitmap) {
-        File directory = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "WasteToWealth");
+    public static String saveImageToFile(Context context, Uri uri) {
+        // Create a directory for your images if it doesn't exist
+        File directory = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "WasteToWealth");
         if (!directory.exists()) {
-            directory.mkdirs();
+            directory.mkdirs(); // Make directories if they don't exist
         }
 
+        // Create a unique filename for the image
         String filename = "image_" + System.currentTimeMillis() + ".jpg";
 
+        // Create a new file object
         File imageFile = new File(directory, filename);
 
         try {
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            if (inputStream == null) {
+                Log.e("YourClass", "Failed to open input stream for URI: " + uri.toString());
+                return null;
+            }
+            OutputStream outputStream = new FileOutputStream(imageFile);
+
+            // Copy data from input stream to output stream
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            // Close streams
+            inputStream.close();
             outputStream.flush();
             outputStream.close();
 
-            return imageFile;
+            return imageFile.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return null; // Return null if an error occurs
         }
     }
 
@@ -306,7 +397,7 @@ public class AddPosts extends AppCompatActivity {
         switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                if (!isChecked) {
                     shopLayout.setVisibility(View.VISIBLE);
                     shopText.setVisibility(View.VISIBLE);
                 } else {

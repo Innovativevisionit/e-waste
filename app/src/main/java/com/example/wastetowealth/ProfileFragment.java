@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.wastetowealth.retrofit.MySharedPreferences;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -25,6 +28,13 @@ public class ProfileFragment extends Fragment {
         AppCompatButton reqToSO = view.findViewById(R.id.reqToSO);
         AppCompatButton personalInformation = view.findViewById(R.id.personalInformation);
         AppCompatButton logoutProfile = view.findViewById(R.id.logoutProfile);
+        TextView userNamePro = view.findViewById(R.id.userNameProfile);
+        TextView emailPro = view.findViewById(R.id.emailProfile);
+        MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(getContext());
+        String username = sharedPreferences.getString("username", "Default");
+        String email = sharedPreferences.getString("email", "Default");
+        userNamePro.setText(username);
+        emailPro.setText(email);
         personalInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

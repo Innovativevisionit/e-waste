@@ -79,7 +79,7 @@
                         android:id="@+id/condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Condition :"
+                        android:text="Model :"
                         android:textStyle="bold" />
 
                     <TextView

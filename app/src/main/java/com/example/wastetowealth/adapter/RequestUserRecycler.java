@@ -103,7 +103,7 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
             categoryText = itemView.findViewById(R.id.category_edit);
             brandText = itemView.findViewById(R.id.brand_edit);
             condition = itemView.findViewById(R.id.condition_edit);
-            maxAmount = itemView.findViewById(R.id.max_price);
+            maxAmount = itemView.findViewById(R.id.max_price_text);
             acceptButton = itemView.findViewById(R.id.acceptPost);
             rejectButton = itemView.findViewById(R.id.rejectPost);
         }

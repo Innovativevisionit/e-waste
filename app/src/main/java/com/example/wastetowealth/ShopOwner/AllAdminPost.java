@@ -38,22 +38,23 @@ public class AllAdminPost extends AppCompatActivity implements RecyclerAdapter.O
         courseModelArrayList = new ArrayList<>();
         RetrofitService retrofitService = new RetrofitService();
         MasterApis apiService = retrofitService.getRetrofit().create(MasterApis.class);
-        apiService.getShopList().enqueue(new Callback<List<ShopRegisterFetch>>() {
+        String status = "Pending";
+        apiService.getShopList(status).enqueue(new Callback<List<Object>>() {
             @Override
-            public void onResponse(Call<List<ShopRegisterFetch>> call, Response<List<ShopRegisterFetch>> response) {
+            public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
                 if (response.isSuccessful()) {
                     courseModelArrayList.clear();
-                    for (ShopRegisterFetch shop : response.body()) {
+                    for (Object shop : response.body()) {
                         ShopRegisterFetch shopFetch = new ShopRegisterFetch();
-                        shopFetch.setShopName(shop.getShopName());
-                        shopFetch.setCategory(shop.getCategory());
-                        shopFetch.setContactNo(shop.getContactNo());
-                        shopFetch.setImages(shop.getImages());
-                        shopFetch.setHazard(shop.getHazard());
-                        shopFetch.setLocation(shop.getLocation());
-                        shopFetch.setRecycleMethods(shop.getRecycleMethods());
-                        shopFetch.setWebsite(shop.getWebsite());
-                        shopFetch.setSocialLink(shop.getSocialLink());
+//                        shopFetch.setShopName(shop.getShopName());
+//                        shopFetch.setCategory(shop.getCategory());
+//                        shopFetch.setContactNo(shop.getContactNo());
+//                        shopFetch.setImages(shop.getImages());
+//                        shopFetch.setHazard(shop.getHazard());
+//                        shopFetch.setLocation(shop.getLocation());
+//                        shopFetch.setRecycleMethods(shop.getRecycleMethods());
+//                        shopFetch.setWebsite(shop.getWebsite());
+//                        shopFetch.setSocialLink(shop.getSocialLink());
                         courseModelArrayList.add(shopFetch);
                     }
                     courseRV.getAdapter().notifyDataSetChanged();
@@ -62,7 +63,7 @@ public class AllAdminPost extends AppCompatActivity implements RecyclerAdapter.O
                 }
             }
             @Override
-            public void onFailure(Call<List<ShopRegisterFetch>> call, Throwable t) {
+            public void onFailure(Call<List<Object>> call, Throwable t) {
                 t.printStackTrace();
                     Toast.makeText(AllAdminPost.this, "Failed to fetch shop list", Toast.LENGTH_SHORT).show();
             }
@@ -84,7 +85,7 @@ public class AllAdminPost extends AppCompatActivity implements RecyclerAdapter.O
         // Pass data to the details activity using Intent extras
         intent.putExtra("storeName", clickedItem.getShopName());
         intent.putExtra("location", clickedItem.getLocation());
-        intent.putExtra("images", clickedItem.getImages()[0]);
+        intent.putExtra("images", clickedItem.getImages().get(0));
         intent.putExtra("category", clickedItem.getCategory());
         intent.putExtra("hazard", clickedItem.getHazard());
         intent.putExtra("recycle", clickedItem.getRecycleMethods());

@@ -25,6 +25,7 @@ import com.example.wastetowealth.api.CategoryApi;
 import com.example.wastetowealth.api.MasterApis;
 import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.ShopRegister;
+import com.example.wastetowealth.retrofit.MySharedPreferences;
 import com.example.wastetowealth.retrofit.RetrofitService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -119,9 +120,12 @@ public class AddShopRequest extends AppCompatActivity {
 
         RetrofitService retrofitService = new RetrofitService();
         MasterApis masterApis = retrofitService.getRetrofit().create(MasterApis.class);
-
+        MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(AddShopRequest.this);
+        String email = sharedPreferences.getString("email", "Default");
+        RequestBody emailBody = RequestBody.create(MediaType.parse("text/plain"), email);
         Call<Object> call = masterApis.submitFormWithImages(
                 shopNameBody,
+                emailBody,
                 contactNoBody,
                 imageParts,
                 locationBody,

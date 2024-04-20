@@ -21,9 +21,12 @@ import com.example.wastetowealth.model.ShopRegister;
 import com.example.wastetowealth.model.ShopRegisterFetch;
 import com.example.wastetowealth.retrofit.ApiConfig;
 import com.example.wastetowealth.retrofit.RetrofitService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,16 +38,10 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_saved, container, false);
         courseRV = view.findViewById(R.id.dashCards);
-
-        // Initialize data
-//        initData();
         getShopList();
-        // Setup RecyclerView
         setupRecyclerView();
-
         return view;
     }
 
@@ -52,23 +49,32 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
         courseModelArrayList = new ArrayList<>();
         RetrofitService retrofitService = new RetrofitService();
         MasterApis apiService = retrofitService.getRetrofit().create(MasterApis.class);
-        apiService.getShopList().enqueue(new Callback<List<ShopRegisterFetch>>() {
+        String status = "Pending";
+        apiService.getShopList(status).enqueue(new Callback<List<Object>>() {
             @Override
-            public void onResponse(Call<List<ShopRegisterFetch>> call, Response<List<ShopRegisterFetch>> response) {
+            public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
                 if (response.isSuccessful()) {
                     courseModelArrayList.clear();
-                    for (ShopRegisterFetch shop : response.body()) {
+                    System.out.println(response.body());
+                    for (Object shop : response.body()) {
+                        Gson gson = new Gson();
+                        Map<String, Object> productData = gson.fromJson(gson.toJsonTree(shop), new TypeToken<Map<String, Object>>() {}.getType());
+
                             ShopRegisterFetch shopFetch = new ShopRegisterFetch();
-                            System.out.println(shop.toString());
-                            shopFetch.setShopName(shop.getShopName());
-                            shopFetch.setCategory(shop.getCategory());
-                            shopFetch.setContactNo(shop.getContactNo());
-                            shopFetch.setImages(shop.getImages());
-                            shopFetch.setHazard(shop.getHazard());
-                            shopFetch.setLocation(shop.getLocation());
-                            shopFetch.setRecycleMethods(shop.getRecycleMethods());
-                            shopFetch.setWebsite(shop.getWebsite());
-                            shopFetch.setSocialLink(shop.getSocialLink());
+                            List<String> imagesList = (List<String>) productData.get("images");
+                            shopFetch.setShopName((String) productData.get("shopName"));
+                            shopFetch.setCategory((String) productData.get("ecategoryName"));
+                            Double contactNoDouble = (Double) productData.get("contactNo");
+                            if (contactNoDouble != null) {
+                                String contactNoString = String.valueOf(contactNoDouble.longValue());
+                                shopFetch.setContactNo(contactNoString);
+                            }
+                            shopFetch.setHazard((String) productData.get("handlingHazard"));
+                            shopFetch.setLocation((String) productData.get("location"));
+                            shopFetch.setRecycleMethods((String) productData.get("recyclingMethod"));
+                            shopFetch.setWebsite((String) productData.get("website"));
+                            shopFetch.setSocialLink((String) productData.get("socialLink"));
+                            shopFetch.setImages(imagesList);
                             courseModelArrayList.add(shopFetch);
                     }
                     courseRV.getAdapter().notifyDataSetChanged();
@@ -77,7 +83,7 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
                 }
             }
             @Override
-            public void onFailure(Call<List<ShopRegisterFetch>> call, Throwable t) {
+            public void onFailure(Call<List<Object>> call, Throwable t) {
                 t.printStackTrace();
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Failed to fetch shop list", Toast.LENGTH_SHORT).show();
@@ -88,7 +94,6 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
     private void setupRecyclerView() {
         RecyclerAdapter courseAdapter = new RecyclerAdapter(getContext(), courseModelArrayList);
         courseAdapter.setOnItemClickListener(this);
-
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         courseRV.setLayoutManager(layoutManager);
         courseRV.setAdapter(courseAdapter);
@@ -96,19 +101,16 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
     @Override
     public void onItemClick(int position) {
         ShopRegisterFetch clickedItem = courseModelArrayList.get(position);
-        // Create an Intent to navigate to the details activity
         Intent intent = new Intent(getContext(), DynamicStoreCard.class);
-        // Pass data to the details activity using Intent extras
         intent.putExtra("storeName", clickedItem.getShopName());
         intent.putExtra("location", clickedItem.getLocation());
-        intent.putExtra("images", clickedItem.getImages()[0]);
+        intent.putExtra("images", clickedItem.getImages().get(0));
         intent.putExtra("category", clickedItem.getCategory());
         intent.putExtra("hazard", clickedItem.getHazard());
         intent.putExtra("recycle", clickedItem.getRecycleMethods());
         intent.putExtra("social", clickedItem.getSocialLink());
         intent.putExtra("website", clickedItem.getWebsite());
         intent.putExtra("contact", clickedItem.getContactNo());
-        // Start the details activity
         startActivity(intent);
     }
 

@@ -1,11 +1,12 @@
 package com.example.wastetowealth.model;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ShopRegisterFetch {
     private String shopName;
     private String contactNo;
-    private String[] images; // Change type to String array
+    private List<String> images; // Change type to String array
     private String location;
     private String category;
     private String recycleMethods;
@@ -16,7 +17,7 @@ public class ShopRegisterFetch {
     public ShopRegisterFetch() {
     }
 
-    public ShopRegisterFetch(String shopName, String contactNo, String[] images, String location, String category, String recycleMethods, String hazard, String website, String socialLink) {
+    public ShopRegisterFetch(String shopName, String contactNo, List<String> images, String location, String category, String recycleMethods, String hazard, String website, String socialLink) {
         this.shopName = shopName;
         this.contactNo = contactNo;
         this.images = images;
@@ -44,11 +45,11 @@ public class ShopRegisterFetch {
         this.contactNo = contactNo;
     }
 
-    public String[] getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(String[] images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 
@@ -105,7 +106,7 @@ public class ShopRegisterFetch {
         return "ShopRegisterFetch{" +
                 "shopName='" + shopName + '\'' +
                 ", contactNo='" + contactNo + '\'' +
-                ", images=" + Arrays.toString(images) +
+                ", images=" + images +
                 ", location='" + location + '\'' +
                 ", category='" + category + '\'' +
                 ", recycleMethods='" + recycleMethods + '\'' +

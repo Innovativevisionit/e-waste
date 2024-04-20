@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface UserApi {
 //    @Multipart
@@ -23,18 +24,19 @@ public interface UserApi {
     @Multipart
     @POST("post/store")
     Call<Object> doPostData(
-            @Part("shop_name") RequestBody shopName,
-//            @Part("all_shop") RequestBody allShop,
+            @Part("name") RequestBody shopName,
+            @Part("email") RequestBody email,
             @Part("brand") RequestBody brand,
             @Part("model") RequestBody model,
             @Part("condition") RequestBody condition,
-            @Part("min_amount") RequestBody minAmount,
-            @Part("max_amount") RequestBody maxAmount,
+            @Part("minAmount") RequestBody minAmount,
+            @Part("maxAmount") RequestBody maxAmount,
             @Part("categories") RequestBody categories,
             @Part MultipartBody.Part[] images
     );
 
-    @GET("post/postList")
+    @GET("post/allPostList")
     Call<List<Object>> getPost();
-
+    @GET("post/userPostList")
+    Call<List<Object>> getUserPost(@Query("email") String email);
 }

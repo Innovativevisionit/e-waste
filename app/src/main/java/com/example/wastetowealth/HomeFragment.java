@@ -25,10 +25,13 @@ import com.example.wastetowealth.model.UserPostCards;
 import com.example.wastetowealth.retrofit.ApiConfig;
 import com.example.wastetowealth.retrofit.MySharedPreferences;
 import com.example.wastetowealth.retrofit.RetrofitService;
+import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,23 +79,25 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
                     userPostCards.clear();
                     List<Object> responseData = response.body();
                     for (Object obj : responseData) {
-                        System.out.println(obj);
-                        if (obj instanceof LinkedTreeMap) {
-                            LinkedTreeMap<String, Object> map = (LinkedTreeMap<String, Object>) obj;
-                            // Access properties from the map
-                            ArrayList<String> imagesList = (ArrayList<String>) map.get("images");
-                            String imageUrl = imagesList.isEmpty() ? "" : imagesList.get(0);
-                            String postName = (String) map.get("brand");
-                            String category = ((LinkedTreeMap<String, Object>) map.get("ecategory")).get("name").toString();
-                            // Assuming you have getters in the UserPostCards class to retrieve the values
-                            userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL + imageUrl, postName, category));
+                        Gson gson = new Gson();
+                        Map<String, Object> productData = gson.fromJson(gson.toJsonTree(obj), new TypeToken<Map<String, Object>>() {}.getType());
+
+                        String postName = (String) productData.get("name");
+                        String category = (String) productData.get("ecategoryName");
+                        List<String> imagesList = (List<String>) productData.get("images");
+                        String imageUrl = "";
+                        if (!imagesList.isEmpty()) {
+                            imageUrl = imagesList.get(0);
                         }
+
+                        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL + imageUrl, postName, category));
                     }
                     courseRV.getAdapter().notifyDataSetChanged();
                 } else {
                     Toast.makeText(getContext(), "Failed to fetch categories" + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<List<Object>> call, Throwable t) {
                 t.printStackTrace();
@@ -101,6 +106,7 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
                 }
             }
         });
+
     }
     private void setupRecyclerView() {
         UserPostCardRecyclerAdapter courseAdapter = new UserPostCardRecyclerAdapter(getContext(), userPostCards);

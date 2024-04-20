@@ -15,6 +15,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface MasterApis {
     @POST("ecategory/store")
@@ -25,12 +26,13 @@ public interface MasterApis {
     Call<List<DeliveryModel>> getDelivery();
     @GET("ecategory/list")
     Call<List<CategoryModel>> getCategory();
-    @GET("shop/shopList")
-    Call<List<ShopRegisterFetch>> getShopList();
+    @GET("shop/pendingShop")
+    Call<List<Object>> getShopList(@Query("status") String status);
     @Multipart
     @POST("shop/register")
     Call<Object> submitFormWithImages(
             @Part("shopName") RequestBody shopName,
+            @Part("email") RequestBody email,
             @Part("contactNo") RequestBody contactNo,
             @Part MultipartBody.Part[] images,
             @Part("location") RequestBody location,

@@ -45,7 +45,7 @@ public class DashboardActivity extends AppCompatActivity  {
                 dispatchTakePictureIntent();
             } else if (item.getItemId() == R.id.setting) {
                 // Handle Settings item click
-                selectedFragment = new SavedFragment();
+                selectedFragment = new SearchFragment();
             } else if (item.getItemId() == R.id.bottomProfile) {
                 // Handle Profile item click
                 selectedFragment = new ProfileFragment();

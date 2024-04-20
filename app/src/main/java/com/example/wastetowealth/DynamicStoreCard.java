@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wastetowealth.Admin.CategoryPage;
+import com.example.wastetowealth.retrofit.ApiConfig;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
@@ -87,7 +88,6 @@ public class DynamicStoreCard extends AppCompatActivity {
             String getSocial = intent.getStringExtra("social");
             String getWebsite = intent.getStringExtra("website");
             String getContact = intent.getStringExtra("contact");
-
             // Set values to TextViews
             storeName.setText(getStore != null ? getStore : "");
             location.setText(getLocation != null ? getLocation : "");
@@ -99,8 +99,9 @@ public class DynamicStoreCard extends AppCompatActivity {
             socialDes.setText(getSocial != null ? getSocial : "");
 
             // Load image using Picasso
-            if (getImageUrl != null) {
-                Picasso.get().load(getImageUrl).into(image);
+            if (getImageUrl != "") {
+                System.out.println("Image" + getImageUrl);
+                Picasso.get().load(ApiConfig.IMAGE_URL + getImageUrl).into(image);
             }
 
             // Generate a random rating

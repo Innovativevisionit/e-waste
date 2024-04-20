@@ -33,6 +33,7 @@ import com.example.wastetowealth.api.UserApi;
 import com.example.wastetowealth.databinding.ActivityAddPostsBinding;
 import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.PostData;
+import com.example.wastetowealth.retrofit.MySharedPreferences;
 import com.example.wastetowealth.retrofit.RetrofitService;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -62,22 +63,20 @@ public class AddPosts extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageRecycler adapter;
     SwitchMaterial toggleButton;
-    TextInputEditText shops, category, brand, model, condition, minAmount, maxAmount;
+    TextInputEditText postName, category, brand, model, condition, minAmount, maxAmount;
     Button submit, toggle;
     boolean isAllFieldsChecked = false;
     Spinner categoryValue;
     private String allShop = "";
     public ArrayList<CategoryModel> categoryArrayList;
     List<Uri> selectedImages = new ArrayList<>(); // List to store selected images URIs
-
-
     String selectedCategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddPostsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        hideAndShow();
+//        hideAndShow();
         dropDownCategory();
         recyclerView = findViewById(R.id.allImages);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -86,7 +85,7 @@ public class AddPosts extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         popOpen();
         toggleButton = findViewById(R.id.shop_all);
-        shops = findViewById(R.id.shop_text);
+        postName = findViewById(R.id.post_name);
         brand = findViewById(R.id.brand_text);
         model = findViewById(R.id.model_text);
         condition = findViewById(R.id.condition_text);
@@ -107,10 +106,10 @@ public class AddPosts extends AppCompatActivity {
     }
 
     private boolean CheckAllFields() {
-        if(toggleButton.isChecked() && shops.length() == 0) {
-            shops.setError("This field is required");
-            return false;
-        }
+//        if(toggleButton.isChecked() && shops.length() == 0) {
+//            shops.setError("This field is required");
+//            return false;
+//        }
 //        if(category.length() == 0) {
 //            category.setError("This field is required");
 //            return false;
@@ -139,27 +138,27 @@ public class AddPosts extends AppCompatActivity {
     }
     private void handleSubmit() {
         SwitchMaterial switchMaterial = findViewById(R.id.shop_all);
-        switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    allShop = "Yes";
-                } else {
-                    allShop = "No";
+//        switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    allShop = "Yes";
+//                } else {
+//                    allShop = "No";
+//
+//                }
+//            }
+//        });
 
-                }
-            }
-        });
-
-        String shopNameValue = shops.getText().toString();
+        String postNameValue = postName.getText().toString();
         String brandValue = brand.getText().toString();
         String modelValue = model.getText().toString();
         String conditionValue = condition.getText().toString();
         String minAmountValue = minAmount.getText().toString();
         String maxAmountValue = maxAmount.getText().toString();
 
-        RequestBody shopNameBody = RequestBody.create(MediaType.parse("text/plain"), shopNameValue);
-        RequestBody allShopBody = RequestBody.create(MediaType.parse("text/plain"), allShop);
+        RequestBody postNameBody = RequestBody.create(MediaType.parse("text/plain"), postNameValue);
+//        RequestBody allShopBody = RequestBody.create(MediaType.parse("text/plain"), allShop);
         RequestBody brandBody = RequestBody.create(MediaType.parse("text/plain"), brandValue);
         RequestBody modelBody = RequestBody.create(MediaType.parse("text/plain"), modelValue);
         RequestBody conditionBody = RequestBody.create(MediaType.parse("text/plain"), conditionValue);
@@ -184,10 +183,12 @@ public class AddPosts extends AppCompatActivity {
 
         RetrofitService retrofitService = new RetrofitService();
         UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
-
+        MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(AddPosts.this);
+        String email = sharedPreferences.getString("email", "Default");
+        RequestBody emailBody = RequestBody.create(MediaType.parse("text/plain"), email);
         Call<Object> call = userApi.doPostData(
-                shopNameBody,
-//                allShopBody,
+                postNameBody,
+                emailBody,
                 brandBody,
                 modelBody,
                 conditionBody,
@@ -196,12 +197,16 @@ public class AddPosts extends AppCompatActivity {
                 categoriesBody,
                 imageParts
         );
+        System.out.println(call);
 
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.isSuccessful()) {
                     // Handle success
+                    Intent intent = new Intent(AddPosts.this, DashboardActivity.class);
+                    startActivity(intent);
+                    finish();
                     Toast.makeText(AddPosts.this, "Form submitted successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     // Handle failure
@@ -393,19 +398,19 @@ public class AddPosts extends AppCompatActivity {
     private void hideAndShow() {
         SwitchMaterial switchMaterial = findViewById(R.id.shop_all);
         TextInputLayout shopLayout = findViewById(R.id.shop);
-        TextInputEditText shopText = findViewById(R.id.shop_text);
-        switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    shopLayout.setVisibility(View.VISIBLE);
-                    shopText.setVisibility(View.VISIBLE);
-                } else {
-                    shopLayout.setVisibility(View.GONE);
-                    shopText.setVisibility(View.GONE);
-                }
-            }
-        });
+        TextInputEditText shopText = findViewById(R.id.post_name);
+//        switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (!isChecked) {
+//                    shopLayout.setVisibility(View.VISIBLE);
+//                    shopText.setVisibility(View.VISIBLE);
+//                } else {
+//                    shopLayout.setVisibility(View.GONE);
+//                    shopText.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     private void dropDownCategory(){

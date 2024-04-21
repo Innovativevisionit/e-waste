@@ -95,21 +95,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right|center_vertical"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="100dp"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/accept"
-                    android:text="Accept"
+                    android:src="@drawable/baseline_done_24"
                     android:backgroundTint="@color/success_stroke_color"
                     />
-                <Button
+
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/reject"
-                    android:text="Reject"
+                    android:src="@drawable/baseline_close_24"
                     android:backgroundTint="@color/red"
                     />
 

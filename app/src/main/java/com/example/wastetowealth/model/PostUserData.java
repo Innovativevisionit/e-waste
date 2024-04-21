@@ -3,6 +3,7 @@ package com.example.wastetowealth.model;
 import java.util.List;
 
 public class PostUserData {
+    private int id;
     private String name;
     private String userIdEmail;
     private String userIdUsername;
@@ -17,7 +18,8 @@ public class PostUserData {
     public PostUserData() {
     }
 
-    public PostUserData(String name, String userIdEmail, String userIdUsername, String ecategoryName, String brand, String model, List<String> images, String postCondition, Long minAmount, Long maxAmount) {
+    public PostUserData(int id, String name, String userIdEmail, String userIdUsername, String ecategoryName, String brand, String model, List<String> images, String postCondition, Long minAmount, Long maxAmount) {
+        this.id = id;
         this.name = name;
         this.userIdEmail = userIdEmail;
         this.userIdUsername = userIdUsername;
@@ -28,6 +30,14 @@ public class PostUserData {
         this.postCondition = postCondition;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

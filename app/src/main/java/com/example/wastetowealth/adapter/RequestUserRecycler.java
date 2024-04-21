@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wastetowealth.R;
 import com.example.wastetowealth.model.PostData;
+import com.example.wastetowealth.model.PostUserData;
 import com.example.wastetowealth.model.ShopRegisterFetch;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
     private final Context context;
     private int selectedPosition = RecyclerView.NO_POSITION;
 
-    private final List<PostData> dataList;
+    private final List<PostUserData> dataList;
     private RequestUserRecycler.OnItemClickListener listener;
 
     private OnButtonClickListener buttonClickListener;
@@ -44,7 +46,7 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
     public void setOnItemClickListener(RequestUserRecycler.OnItemClickListener listener) {
         this.listener = listener;
     }
-    public RequestUserRecycler(Context context, List<PostData> dataList) {
+    public RequestUserRecycler(Context context, List<PostUserData> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -57,11 +59,11 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
 
     @Override
     public void onBindViewHolder(@NonNull RequestUserRecycler.ViewHolder holder, int position) {
-        PostData item = dataList.get(position);
-        holder.categoryText.setText(item.getCategories());
+        PostUserData item = dataList.get(position);
+        holder.categoryText.setText(item.getEcategoryName());
         holder.brandText.setText(item.getBrand());
-        holder.condition.setText(item.getCondition());
-        holder.maxAmount.setText(item.getMaxAmount());
+        holder.condition.setText(item.getPostCondition());
+        holder.maxAmount.setText(String.valueOf(Long.valueOf(item.getMaxAmount())));
         holder.itemView.setSelected(selectedPosition == holder.getAdapterPosition());
 
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +97,7 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
         public TextView condition;
         public TextView maxAmount;
 
-        public Button acceptButton;
-        public Button rejectButton;
+        public ImageButton acceptButton, rejectButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

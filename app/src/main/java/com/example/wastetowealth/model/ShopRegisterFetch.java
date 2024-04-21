@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ShopRegisterFetch {
+
+    private int id;
     private String shopName;
     private String contactNo;
     private List<String> images; // Change type to String array
@@ -17,7 +19,8 @@ public class ShopRegisterFetch {
     public ShopRegisterFetch() {
     }
 
-    public ShopRegisterFetch(String shopName, String contactNo, List<String> images, String location, String category, String recycleMethods, String hazard, String website, String socialLink) {
+    public ShopRegisterFetch(int id, String shopName, String contactNo, List<String> images, String location, String category, String recycleMethods, String hazard, String website, String socialLink) {
+        this.id = id;
         this.shopName = shopName;
         this.contactNo = contactNo;
         this.images = images;
@@ -27,6 +30,14 @@ public class ShopRegisterFetch {
         this.hazard = hazard;
         this.website = website;
         this.socialLink = socialLink;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getShopName() {

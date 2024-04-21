@@ -49,7 +49,7 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
         courseModelArrayList = new ArrayList<>();
         RetrofitService retrofitService = new RetrofitService();
         MasterApis apiService = retrofitService.getRetrofit().create(MasterApis.class);
-        String status = "Pending";
+        String status = "Approved";
         apiService.getShopList(status).enqueue(new Callback<List<Object>>() {
             @Override
             public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {

@@ -15,9 +15,12 @@ import com.example.wastetowealth.adapter.RecyclerAdapter;
 import com.example.wastetowealth.api.MasterApis;
 import com.example.wastetowealth.model.ShopRegisterFetch;
 import com.example.wastetowealth.retrofit.RetrofitService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,23 +41,32 @@ public class AllAdminPost extends AppCompatActivity implements RecyclerAdapter.O
         courseModelArrayList = new ArrayList<>();
         RetrofitService retrofitService = new RetrofitService();
         MasterApis apiService = retrofitService.getRetrofit().create(MasterApis.class);
-        String status = "Pending";
+        String status = "Approved";
         apiService.getShopList(status).enqueue(new Callback<List<Object>>() {
             @Override
             public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
                 if (response.isSuccessful()) {
                     courseModelArrayList.clear();
+                    System.out.println(response.body());
                     for (Object shop : response.body()) {
+                        Gson gson = new Gson();
+                        Map<String, Object> productData = gson.fromJson(gson.toJsonTree(shop), new TypeToken<Map<String, Object>>() {}.getType());
+
                         ShopRegisterFetch shopFetch = new ShopRegisterFetch();
-//                        shopFetch.setShopName(shop.getShopName());
-//                        shopFetch.setCategory(shop.getCategory());
-//                        shopFetch.setContactNo(shop.getContactNo());
-//                        shopFetch.setImages(shop.getImages());
-//                        shopFetch.setHazard(shop.getHazard());
-//                        shopFetch.setLocation(shop.getLocation());
-//                        shopFetch.setRecycleMethods(shop.getRecycleMethods());
-//                        shopFetch.setWebsite(shop.getWebsite());
-//                        shopFetch.setSocialLink(shop.getSocialLink());
+                        List<String> imagesList = (List<String>) productData.get("images");
+                        shopFetch.setShopName((String) productData.get("shopName"));
+                        shopFetch.setCategory((String) productData.get("ecategoryName"));
+                        Double contactNoDouble = (Double) productData.get("contactNo");
+                        if (contactNoDouble != null) {
+                            String contactNoString = String.valueOf(contactNoDouble.longValue());
+                            shopFetch.setContactNo(contactNoString);
+                        }
+                        shopFetch.setHazard((String) productData.get("handlingHazard"));
+                        shopFetch.setLocation((String) productData.get("location"));
+                        shopFetch.setRecycleMethods((String) productData.get("recyclingMethod"));
+                        shopFetch.setWebsite((String) productData.get("website"));
+                        shopFetch.setSocialLink((String) productData.get("socialLink"));
+                        shopFetch.setImages(imagesList);
                         courseModelArrayList.add(shopFetch);
                     }
                     courseRV.getAdapter().notifyDataSetChanged();
@@ -65,7 +77,9 @@ public class AllAdminPost extends AppCompatActivity implements RecyclerAdapter.O
             @Override
             public void onFailure(Call<List<Object>> call, Throwable t) {
                 t.printStackTrace();
+                if (AllAdminPost.this != null) {
                     Toast.makeText(AllAdminPost.this, "Failed to fetch shop list", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

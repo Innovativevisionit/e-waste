@@ -4,23 +4,26 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wastetowealth.R;
-import com.example.wastetowealth.model.CategoryModel;
-import com.example.wastetowealth.model.RequestUserModel;
+import com.example.wastetowealth.RequestUserActivity;
+import com.example.wastetowealth.model.ShopRegisterFetch;
 
 import java.util.List;
 
 public class RequestUserAdapter extends RecyclerView.Adapter<RequestUserAdapter.CategoryViewHolder> {
 
-    private List<RequestUserModel> categoryList;
+    private List<ShopRegisterFetch> categoryList;
+    private OnAcceptRejectClickListener onAcceptRejectClickListener;
 
-    public RequestUserAdapter(List<RequestUserModel> categoryList) {
+    public RequestUserAdapter(List<ShopRegisterFetch> categoryList, OnAcceptRejectClickListener listener) {
         this.categoryList = categoryList;
+        this.onAcceptRejectClickListener = listener;
     }
 
     @NonNull
@@ -33,8 +36,7 @@ public class RequestUserAdapter extends RecyclerView.Adapter<RequestUserAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RequestUserAdapter.CategoryViewHolder holder, int position) {
-        RequestUserModel requestUserModel = categoryList.get(position);
-
+        ShopRegisterFetch requestUserModel = categoryList.get(position);
         holder.bind(requestUserModel);
     }
 
@@ -45,23 +47,27 @@ public class RequestUserAdapter extends RecyclerView.Adapter<RequestUserAdapter.
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name;
-        TextView location;
-        TextView contactno;
+        TextView name,location,contactno;
+        ImageButton accept, reject;
+
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             location = itemView.findViewById(R.id.location);
             contactno = itemView.findViewById(R.id.contactno);
+            accept = itemView.findViewById(R.id.accept);
+            reject = itemView.findViewById(R.id.reject);
         }
-        public void bind(RequestUserModel requestUserModel) {
+        public void bind(ShopRegisterFetch requestUserModel) {
             // Set category name
-            name.setText(requestUserModel.getName());
-
-            // Set date
+            name.setText(requestUserModel.getShopName());
             location.setText(requestUserModel.getLocation());
-            contactno.setText(requestUserModel.getContactNumber());
+            contactno.setText(requestUserModel.getContactNo());
         }
 
+    }
+    public interface OnAcceptRejectClickListener {
+        void onAcceptClick(int position);
+        void onRejectClick(int position);
     }
 }

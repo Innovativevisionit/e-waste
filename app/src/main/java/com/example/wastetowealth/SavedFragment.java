@@ -75,6 +75,8 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
                             shopFetch.setWebsite((String) productData.get("website"));
                             shopFetch.setSocialLink((String) productData.get("socialLink"));
                             shopFetch.setImages(imagesList);
+                            shopFetch.setId(String.valueOf(productData.get("id")));
+
                             courseModelArrayList.add(shopFetch);
                     }
                     courseRV.getAdapter().notifyDataSetChanged();
@@ -102,6 +104,7 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
     public void onItemClick(int position) {
         ShopRegisterFetch clickedItem = courseModelArrayList.get(position);
         Intent intent = new Intent(getContext(), DynamicStoreCard.class);
+        intent.putExtra("id", clickedItem.getId());
         intent.putExtra("storeName", clickedItem.getShopName());
         intent.putExtra("location", clickedItem.getLocation());
         intent.putExtra("images", clickedItem.getImages().get(0));

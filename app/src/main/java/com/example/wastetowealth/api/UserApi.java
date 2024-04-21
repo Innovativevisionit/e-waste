@@ -42,4 +42,7 @@ public interface UserApi {
 
     @GET("auth/getUserDetails")
     Call<Object> getUserDetails(@Query("email") String email);
+
+    @GET("post/user-pending-post")
+    Call<List<String>> getPendingPostList(@Query("email") String email);
 }

@@ -40,4 +40,7 @@ public interface MasterApis {
             @Part("website") RequestBody website,
             @Part("socialLink") RequestBody socialLink
     );
+    @POST("shop/send-post-to-shop")
+    Call<Object> sendpostToShop(@Query("shopId") String shopId,@Query("postname") String postname);
+
 }

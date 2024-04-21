@@ -20,6 +20,7 @@ import com.example.wastetowealth.api.UserApi;
 import com.example.wastetowealth.model.DashboardCards;
 import com.example.wastetowealth.model.PostData;
 import com.example.wastetowealth.model.PostFetch;
+import com.example.wastetowealth.model.PostUserData;
 import com.example.wastetowealth.model.ShopRegisterFetch;
 import com.example.wastetowealth.model.UserPostCards;
 import com.example.wastetowealth.retrofit.ApiConfig;
@@ -38,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapter.OnItemClickListener  {
-    private ArrayList<UserPostCards> userPostCards;
+    private ArrayList<PostUserData> userPostCards;
     private RecyclerView courseRV;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,25 +48,9 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
         courseRV = view.findViewById(R.id.mainCards);
         MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(getContext());
         String username = sharedPreferences.getString("username", "Default");
-
-        initData();
         list();
         setupRecyclerView();
         return view;
-    }
-    private void initData() {
-        userPostCards = new ArrayList<>();
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"fridge.jpg","Fridge", "Kitchen Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"fan.jpg","Fan", "Home Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"frameLight.jpg","Frame Light", "Decoration"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"grinder.jpg","Grinder", "Kitchen Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"junction.jpg","Junction", "Electronic Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"lap.jpg","Laptop", "Education"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"lcd_tv.jpg","LCD-TV", "Home Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"ledLights.jpg","LED Light", "Electronic Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"oldLap.jpg","Laptop", "Education"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"wm.jpg","Washing Machine", "Electronic Appliance"));
-        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL +"wires.jpg","Wires", "Electronic Appliance"));
     }
 
     private void list() {
@@ -82,15 +67,25 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
                         Gson gson = new Gson();
                         Map<String, Object> productData = gson.fromJson(gson.toJsonTree(obj), new TypeToken<Map<String, Object>>() {}.getType());
 
-                        String postName = (String) productData.get("name");
-                        String category = (String) productData.get("ecategoryName");
+                        PostUserData shopFetch = new PostUserData();
                         List<String> imagesList = (List<String>) productData.get("images");
-                        String imageUrl = "";
-                        if (!imagesList.isEmpty()) {
-                            imageUrl = imagesList.get(0);
+                        shopFetch.setName((String) productData.get("name"));
+                        shopFetch.setEcategoryName((String) productData.get("ecategoryName"));
+
+                        shopFetch.setBrand((String) productData.get("brand"));
+                        shopFetch.setModel((String) productData.get("model"));
+                        shopFetch.setPostCondition((String) productData.get("postCondition"));
+                        Double minAmountDouble = (Double) productData.get("minAmount");
+                        if (minAmountDouble != null) {
+                            shopFetch.setMinAmount(minAmountDouble.longValue());
+                        }
+                        Double maxAmountDouble = (Double) productData.get("maxAmount");
+                        if (maxAmountDouble != null) {
+                            shopFetch.setMaxAmount(maxAmountDouble.longValue());
                         }
 
-                        userPostCards.add(new UserPostCards(ApiConfig.IMAGE_URL + imageUrl, postName, category));
+                        shopFetch.setImages(imagesList);
+                        userPostCards.add(shopFetch);
                     }
                     courseRV.getAdapter().notifyDataSetChanged();
                 } else {
@@ -119,11 +114,16 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
 
     @Override
     public void onItemClick(int position) {
-//        UserPostCards clickedItem = userPostCards.get(position);
-//        Intent intent = new Intent(getContext(), DynamicStoreCard.class);
-//        intent.putExtra("storeName", clickedItem.getPostName());
-//        intent.putExtra("location", clickedItem.getCategory());
-//        startActivity(intent);
+        PostUserData clickedItem = userPostCards.get(position);
+        Intent intent = new Intent(getContext(), DynamicUserPost.class);
+        intent.putExtra("name", clickedItem.getName());
+        intent.putExtra("brand", clickedItem.getBrand());
+        intent.putExtra("images", clickedItem.getImages().get(0));
+        intent.putExtra("minAmount", String.valueOf(clickedItem.getMinAmount()));
+        intent.putExtra("maxAmount", String.valueOf(clickedItem.getMaxAmount()));
+        intent.putExtra("model", clickedItem.getModel());
+        intent.putExtra("category", clickedItem.getEcategoryName());
+        startActivity(intent);
     }
 
     @Override

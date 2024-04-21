@@ -28,12 +28,13 @@ public class DeliveryUser extends RecyclerView.Adapter<DeliveryUser.DeliveryView
 
     @Override
     public void onBindViewHolder(@NonNull DeliveryUser.DeliveryViewHolder holder, int position) {
-
+        DeliveryModel deliveryModel = deliveryList.get(position);
+        holder.bind(deliveryModel);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return deliveryList.size();
     }
 
     public class DeliveryViewHolder extends RecyclerView.ViewHolder {
@@ -42,7 +43,7 @@ public class DeliveryUser extends RecyclerView.Adapter<DeliveryUser.DeliveryView
         TextView age;
         TextView location;
         TextView contactNo;
-        TextView status;
+//        TextView status;
 
         public DeliveryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,24 +51,22 @@ public class DeliveryUser extends RecyclerView.Adapter<DeliveryUser.DeliveryView
             age = itemView.findViewById(R.id.age);
             location = itemView.findViewById(R.id.location);
             contactNo = itemView.findViewById(R.id.contactNo);
-            status = itemView.findViewById(R.id.activeProfile);
+//            status = itemView.findViewById(R.id.activeProfile);
         }
         public void bind(DeliveryModel deliveryModel) {
             // Set category name
             name.setText(deliveryModel.getName());
-
-            // Set date
             age.setText(deliveryModel.getAge());
             location.setText(deliveryModel.getLocation());
-            contactNo.setText(deliveryModel.getContactNo());
+//            contactNo.setText(CharSequence.compare((char) deliveryModel.getContactNo()));
 
-            if (deliveryModel.getStatus().equals("1")) {
-                status.setText("Active");
-                status.setTextColor(itemView.getContext().getResources().getColor(R.color.green));
-            } else {
-                status.setText("Inactive");
-                status.setTextColor(itemView.getContext().getResources().getColor(R.color.red));
-            }
+//            if (deliveryModel.getStatus().equals("1")) {
+//                status.setText("Active");
+//                status.setTextColor(itemView.getContext().getResources().getColor(R.color.green));
+//            } else {
+//                status.setText("Inactive");
+//                status.setTextColor(itemView.getContext().getResources().getColor(R.color.red));
+//            }
         }
 
     }

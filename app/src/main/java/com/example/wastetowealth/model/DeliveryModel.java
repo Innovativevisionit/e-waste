@@ -57,4 +57,15 @@ public class DeliveryModel {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "DeliveryModel{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", location='" + location + '\'' +
+                ", contactNo='" + contactNo + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

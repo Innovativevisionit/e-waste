@@ -2,8 +2,6 @@ package com.example.wastetowealth.api;
 
 import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.DeliveryModel;
-import com.example.wastetowealth.model.ShopRegister;
-import com.example.wastetowealth.model.ShopRegisterFetch;
 
 import java.util.List;
 
@@ -20,9 +18,9 @@ import retrofit2.http.Query;
 public interface MasterApis {
     @POST("ecategory/store")
     Call<CategoryModel> addCategory(@Body CategoryModel category);
-    @POST("ecategory/store")
-    Call<DeliveryModel> addDelivery(@Body DeliveryModel category);
-    @POST("ecategory/store")
+    @POST("auth/store-deliveryman")
+    Call<DeliveryModel> addDelivery(@Body DeliveryModel deliveryModel);
+    @GET("auth/getAllDeliveryMan")
     Call<List<DeliveryModel>> getDelivery();
     @GET("ecategory/list")
     Call<List<CategoryModel>> getCategory();

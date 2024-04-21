@@ -39,4 +39,7 @@ public interface UserApi {
     Call<List<Object>> getPost();
     @GET("post/userPostList")
     Call<List<Object>> getUserPost(@Query("email") String email);
+
+    @GET("auth/getUserDetails")
+    Call<Object> getUserDetails(@Query("email") String email);
 }

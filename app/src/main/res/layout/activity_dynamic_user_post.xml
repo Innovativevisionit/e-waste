@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/my_green"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/centering_guide"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="120dp"
+                app:cardCornerRadius="30dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <ImageView
+                        android:id="@+id/dynamicImageStore"
+                        android:layout_width="120dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="219dp"
+                        android:layout_marginBottom="16dp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/purple" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical"
+                        tools:ignore="MissingConstraints">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                            <TextView
+                                android:id="@+id/name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginTop="16dp"/>
+
+                            <TextView
+                                android:id="@+id/nameText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/name"
+                                android:layout_alignStart="@id/name"
+                                android:layout_marginTop="8dp"
+                                android:text="Category description goes here"/>
+
+                            <!-- Recycling Method Section -->
+                            <TextView
+                                android:id="@+id/brand"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Brand"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/nameText"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/brandText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/brand"
+                                android:layout_alignStart="@id/brand"
+                                android:layout_marginTop="8dp"
+                                android:text="Recycling method description goes here"/>
+
+                            <!-- Handling Hazard Section -->
+                            <TextView
+                                android:id="@+id/model"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Model"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/brandText"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/modelText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/model"
+                                android:layout_alignStart="@id/model"
+                                android:layout_marginTop="8dp"
+                                android:text="Handling hazard description goes here"/>
+
+                            <!-- Website Section -->
+                            <TextView
+                                android:id="@+id/category"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Category"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/modelText"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/categoryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/category"
+                                android:layout_alignStart="@id/category"
+                                android:layout_marginTop="8dp"
+                                android:text="Website description goes here"/>
+
+                            <!-- Social Link Section -->
+                            <TextView
+                                android:id="@+id/minAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Min Amount"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/categoryText"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/minAmountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/minAmount"
+                                android:layout_alignStart="@id/minAmount"
+                                android:layout_marginTop="8dp"
+                                android:text="Social link description goes here"/>
+
+                            <!-- Contact Number Section -->
+                            <TextView
+                                android:id="@+id/maxAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Max Amount"
+                                android:textStyle="bold"
+                                android:textSize="18sp"
+                                android:layout_below="@id/minAmountText"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginStart="16dp"/>
+
+                            <TextView
+                                android:id="@+id/maxAmountText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/maxAmount"
+                                android:layout_alignStart="@id/maxAmount"
+                                android:layout_marginTop="8dp"
+                                android:text="Contact number description goes here"/>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

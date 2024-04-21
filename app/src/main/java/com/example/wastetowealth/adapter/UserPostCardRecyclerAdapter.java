@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wastetowealth.R;
+import com.example.wastetowealth.model.PostUserData;
 import com.example.wastetowealth.model.UserPostCards;
+import com.example.wastetowealth.retrofit.ApiConfig;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,10 +22,10 @@ import java.util.List;
 public class UserPostCardRecyclerAdapter extends RecyclerView.Adapter<UserPostCardRecyclerAdapter.UserPostViewHolder>{
 
     private Context context;
-    private ArrayList<UserPostCards> userPostCardsList;
+    private ArrayList<PostUserData> userPostCardsList;
     private OnItemClickListener clickListener;
 
-    public UserPostCardRecyclerAdapter(Context context, ArrayList<UserPostCards> userPostCardsList) {
+    public UserPostCardRecyclerAdapter(Context context, ArrayList<PostUserData> userPostCardsList) {
         this.context = context;
         this.userPostCardsList = userPostCardsList;
     }
@@ -46,13 +48,13 @@ public class UserPostCardRecyclerAdapter extends RecyclerView.Adapter<UserPostCa
     @Override
     public void onBindViewHolder(@NonNull UserPostViewHolder holder, int position) {
         final int currentPosition = holder.getAdapterPosition();
-        UserPostCards userPostCard = userPostCardsList.get(currentPosition);
+        PostUserData userPostCard = userPostCardsList.get(currentPosition);
         Picasso.get()
-                .load(userPostCard.getPostImage()) // Image URL from the current item
+                .load(ApiConfig.IMAGE_URL + userPostCard.getImages().get(0)) // Image URL from the current item
                 .placeholder(R.drawable.purple) // Placeholder image while loading
                 .into(holder.productImage);
-        holder.productName.setText(userPostCard.getPostName());
-        holder.category.setText(userPostCard.getCategory());
+        holder.productName.setText(userPostCard.getName());
+        holder.category.setText(userPostCard.getEcategoryName());
 //        holder.likeOrUnlike.setImageResource(userPostCard.getLikeOrUnlike());
 //        holder.send.setImageResource(userPostCard.getShare());
 //        holder.options.setImageResource(userPostCard.getOptions());

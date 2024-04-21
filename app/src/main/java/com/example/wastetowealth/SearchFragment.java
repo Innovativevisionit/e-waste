@@ -1,5 +1,6 @@
 package com.example.wastetowealth;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -75,8 +76,15 @@ public class SearchFragment extends Fragment implements UserPostRecycler.OnItemC
                         shopFetch.setBrand((String) productData.get("brand"));
                         shopFetch.setModel((String) productData.get("model"));
                         shopFetch.setPostCondition((String) productData.get("postCondition"));
-                        shopFetch.setMaxAmount((long) productData.get("minAmount"));
-                        shopFetch.setMaxAmount((long) productData.get("maxAmount"));
+                        Double minAmountDouble = (Double) productData.get("minAmount");
+                        if (minAmountDouble != null) {
+                            shopFetch.setMinAmount(minAmountDouble.longValue());
+                        }
+                        Double maxAmountDouble = (Double) productData.get("maxAmount");
+                        if (maxAmountDouble != null) {
+                            shopFetch.setMaxAmount(maxAmountDouble.longValue());
+                        }
+
                         shopFetch.setImages(imagesList);
                         courseModelArrayList.add(shopFetch);
                     }
@@ -97,6 +105,15 @@ public class SearchFragment extends Fragment implements UserPostRecycler.OnItemC
 
     @Override
     public void onItemClick(int position) {
-
+        PostUserData clickedItem = courseModelArrayList.get(position);
+        Intent intent = new Intent(getContext(), DynamicUserPost.class);
+        intent.putExtra("name", clickedItem.getName());
+        intent.putExtra("brand", clickedItem.getBrand());
+        intent.putExtra("images", clickedItem.getImages().get(0));
+        intent.putExtra("minAmount", String.valueOf(clickedItem.getMinAmount()));
+        intent.putExtra("maxAmount", String.valueOf(clickedItem.getMaxAmount()));
+        intent.putExtra("model", clickedItem.getModel());
+        intent.putExtra("category", clickedItem.getEcategoryName());
+        startActivity(intent);
     }
 }

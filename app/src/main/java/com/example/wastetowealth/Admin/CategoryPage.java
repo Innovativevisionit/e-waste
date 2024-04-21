@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -146,7 +147,7 @@ public class CategoryPage extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         categoryRV.setLayoutManager(layoutManager);
         categoryList = new ArrayList<>();
-
+        Log.d("Category Page", "Category Data : " + categoryList);
         categoryAdapter = new Category(categoryList);
         categoryRV.setAdapter(categoryAdapter);
         fetchCategories();

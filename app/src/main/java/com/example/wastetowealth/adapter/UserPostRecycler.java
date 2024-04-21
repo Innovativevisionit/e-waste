@@ -53,7 +53,7 @@ public class UserPostRecycler extends RecyclerView.Adapter<UserPostRecycler.View
             Picasso.get().load(R.drawable.purple).into(holder.imageView);
         }
         holder.storeNameTextView.setText(item.getName());
-        holder.locationTextView.setText(Math.toIntExact(item.getMinAmount()));
+        holder.locationTextView.setText(item.getBrand());
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onItemClick(position);

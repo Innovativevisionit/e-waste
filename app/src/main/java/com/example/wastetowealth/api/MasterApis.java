@@ -1,5 +1,6 @@
 package com.example.wastetowealth.api;
 
+import com.example.wastetowealth.model.ApprovalPostModel;
 import com.example.wastetowealth.model.CategoryModel;
 import com.example.wastetowealth.model.DeliveryModel;
 import com.example.wastetowealth.model.ShopRegisterFetch;
@@ -29,6 +30,9 @@ public interface MasterApis {
     Call<List<CategoryModel>> getCategory();
     @PUT("shop/update")
     Call<Object> updateShopRequest(@Body ShopUpdate shopUpdate);
+
+    @POST("post/post-accept")
+    Call<Object> approvalPost(@Body ApprovalPostModel approvalPostModel);
     @GET("shop/pendingShop")
     Call<List<Object>> getShopList(@Query("status") String status);
     @GET("post/getCategory-based-post")

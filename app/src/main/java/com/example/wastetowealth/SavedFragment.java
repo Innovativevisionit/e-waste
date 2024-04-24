@@ -75,8 +75,7 @@ public class SavedFragment extends Fragment implements RecyclerAdapter.OnItemCli
                             shopFetch.setWebsite((String) productData.get("website"));
                             shopFetch.setSocialLink((String) productData.get("socialLink"));
                             shopFetch.setImages(imagesList);
-                            shopFetch.setId(String.valueOf(productData.get("id")));
-
+                            shopFetch.setId((int) (double)productData.get("id"));
                             courseModelArrayList.add(shopFetch);
                     }
                     courseRV.getAdapter().notifyDataSetChanged();

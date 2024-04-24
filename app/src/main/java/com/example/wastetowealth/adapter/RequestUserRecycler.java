@@ -20,35 +20,13 @@ import com.example.wastetowealth.model.ShopRegisterFetch;
 import java.util.List;
 
 public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycler.ViewHolder> {
-    private final Context context;
     private int selectedPosition = RecyclerView.NO_POSITION;
+    private List<PostUserData> postData;
+    private OnItemClickListener listener;
 
-    private final List<PostUserData> dataList;
-    private RequestUserRecycler.OnItemClickListener listener;
-
-    private OnButtonClickListener buttonClickListener;
-
-    public interface OnButtonClickListener {
-        void onAcceptClick(int position);
-        void onRejectClick(int position);
-    }
-    public void setOnButtonClickListener(OnButtonClickListener listener) {
-        this.buttonClickListener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onAcceptClick(int position);
-
-        void onRejectClick(int position);
-
-        void onItemClick(int position);
-    }
-    public void setOnItemClickListener(RequestUserRecycler.OnItemClickListener listener) {
+    public RequestUserRecycler(List<PostUserData> postData, OnItemClickListener listener) {
+        this.postData = postData;
         this.listener = listener;
-    }
-    public RequestUserRecycler(Context context, List<PostUserData> dataList) {
-        this.context = context;
-        this.dataList = dataList;
     }
     @NonNull
     @Override
@@ -59,28 +37,21 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
 
     @Override
     public void onBindViewHolder(@NonNull RequestUserRecycler.ViewHolder holder, int position) {
-        PostUserData item = dataList.get(position);
+        PostUserData item = postData.get(position);
         holder.categoryText.setText(item.getEcategoryName());
         holder.brandText.setText(item.getBrand());
         holder.condition.setText(item.getPostCondition());
         holder.maxAmount.setText(String.valueOf(Long.valueOf(item.getMaxAmount())));
         holder.itemView.setSelected(selectedPosition == holder.getAdapterPosition());
-
-        holder.acceptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (buttonClickListener != null) {
-                    buttonClickListener.onAcceptClick(holder.getAdapterPosition());
-                }
+        holder.acceptButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAcceptClick(position);
             }
         });
 
-        holder.rejectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (buttonClickListener != null) {
-                    buttonClickListener.onRejectClick(holder.getAdapterPosition());
-                }
+        holder.rejectButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onRejectClick(position);
             }
         });
     }
@@ -88,7 +59,7 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return postData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -109,5 +80,10 @@ public class RequestUserRecycler  extends RecyclerView.Adapter<RequestUserRecycl
             rejectButton = itemView.findViewById(R.id.rejectPost);
         }
 
+    }
+    public interface OnItemClickListener {
+        void onAcceptClick(int position);
+
+        void onRejectClick(int position);
     }
 }

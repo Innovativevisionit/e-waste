@@ -59,6 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
+
                             android:id="@+id/category"
                             app:cardCornerRadius="8dp">
 
@@ -76,20 +77,20 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Posts"
+                                        android:text="Profile View"
                                         android:textSize="20sp"
-                                        android:layout_marginStart="20dp"/>
+                                        android:layout_marginStart="110dp"/>
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Shared"
-                                        android:textSize="20sp"
-                                        android:layout_marginStart="260dp"/>
+<!--                                    <TextView-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:text="Shared"-->
+<!--                                        android:textSize="20sp"-->
+<!--                                        android:layout_marginStart="260dp"/>-->
 
                                 </RelativeLayout>
 
-                                <!-- Second row content -->
+
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
@@ -97,14 +98,12 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="4"
                                         android:textSize="20sp"
                                         android:layout_marginStart="30dp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="7"
                                         android:textSize="20sp"
                                         android:layout_marginStart="280dp"/>
 
@@ -136,6 +135,22 @@
                                     android:layout_marginEnd="10dp"
                                     android:inputType="text"
                                     android:text="Akshaya"
+                                    />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Enter Email">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/editTextEmail"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:inputType="text"
+                                    android:text="akshaya@gmail.com"
                                     />
 
                             </com.google.android.material.textfield.TextInputLayout>

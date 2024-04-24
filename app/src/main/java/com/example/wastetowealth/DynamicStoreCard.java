@@ -56,7 +56,6 @@ public class DynamicStoreCard extends AppCompatActivity {
     private void showDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.input_spinner, null);
 
-
         editTextCategory = dialogView.findViewById(R.id.editPostText);
         getPendingUserPost();
 

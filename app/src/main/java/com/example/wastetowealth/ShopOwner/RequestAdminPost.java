@@ -9,11 +9,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.wastetowealth.Admin.CategoryPage;
+import com.example.wastetowealth.DynamicStoreCard;
 import com.example.wastetowealth.ProfilePage;
 import com.example.wastetowealth.R;
 import com.example.wastetowealth.RequestUserActivity;
@@ -45,9 +49,11 @@ import retrofit2.Response;
 public class RequestAdminPost extends AppCompatActivity implements RequestUserRecycler.OnItemClickListener {
     private ArrayList<PostUserData> postData;
     RecyclerView request_post_acc_rej;
+    Spinner editTextDelivery;
     Button accept, reject;
     private RequestUserRecycler adapter;
-
+    private List<String> deliverylist;
+    String getDeliveryMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,13 +141,27 @@ public class RequestAdminPost extends AppCompatActivity implements RequestUserRe
 
     private void showDialog(Integer postId, String status) {
         View dialogView = getLayoutInflater().inflate(R.layout.input_approved_post, null);
-        final EditText editDeliveryMan = dialogView.findViewById(R.id.editDeliveryMan);
+//        final EditText editDeliveryMan = dialogView.findViewById(R.id.editDeliveryMan);
         final EditText editReason = dialogView.findViewById(R.id.editTextReason);
+        editTextDelivery =  dialogView.findViewById(R.id.editDeliveryMan);
+        getDeliveryManList();
+
+        editTextDelivery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getDeliveryMan = deliverylist.get(position);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
 
         if (status.equals("approve")) {
-            editDeliveryMan.setVisibility(View.VISIBLE);
+            editTextDelivery.setVisibility(View.VISIBLE);
         } else {
-            editDeliveryMan.setVisibility(View.GONE);
+            editTextDelivery.setVisibility(View.GONE);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -151,7 +171,7 @@ public class RequestAdminPost extends AppCompatActivity implements RequestUserRe
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Handle positive button click
-                        String deliveryMan = editDeliveryMan.getText().toString().trim();
+                        String deliveryMan = getDeliveryMan;
                         String reason = editReason.getText().toString().trim();
 //                        String category = getCategory;
 
@@ -172,6 +192,38 @@ public class RequestAdminPost extends AppCompatActivity implements RequestUserRe
                     }
                 })
                 .show();
+    }
+
+    private void getDeliveryManList(){
+        deliverylist = new ArrayList<>();
+        RetrofitService retrofitService = new RetrofitService();
+        UserApi apiService = retrofitService.getRetrofit().create(UserApi.class);
+        MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(RequestAdminPost.this);
+        String email = sharedPreferences.getString("email", "Default");
+
+        apiService.getDeliveryManList(email)
+                .enqueue(new Callback<List<String>>() {
+                    @Override
+                    public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                        if (response.isSuccessful()) {
+                            deliverylist.addAll(response.body());
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(RequestAdminPost.this,
+                                    android.R.layout.simple_spinner_item,
+                                    deliverylist);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            editTextDelivery.setAdapter(adapter);
+                        }else{
+
+                            Toast.makeText(RequestAdminPost.this, "Something error happened", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<String>> call, Throwable t) {
+
+                    }
+                });
+
     }
 
     private void sendApprovedPost(Integer postId, String status, String deliveryMan, String reason) {

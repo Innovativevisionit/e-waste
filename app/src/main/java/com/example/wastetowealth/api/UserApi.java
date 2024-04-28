@@ -45,4 +45,7 @@ public interface UserApi {
 
     @GET("post/user-pending-post")
     Call<List<String>> getPendingPostList(@Query("email") String email);
+
+    @GET("auth/getDeliveryMan")
+    Call<List<String>> getDeliveryManList(@Query("email") String email);
 }

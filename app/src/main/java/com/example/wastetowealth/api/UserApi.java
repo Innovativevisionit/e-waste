@@ -51,4 +51,6 @@ public interface UserApi {
 
     @GET("post/dashboard-count")
     Call<Object> getAdminCount();
+    @GET("auth/getDeliveryMan")
+    Call<List<String>> getDeliveryManList(@Query("email") String email);
 }

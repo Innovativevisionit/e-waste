@@ -36,6 +36,7 @@ public class AdminDashboard extends AppCompatActivity {
         CardView delivery = findViewById(R.id.deliveryUser);
         Button logout = findViewById(R.id.adminLogoutBtn);
         CardView requestUser = findViewById(R.id.requestUser);
+        CardView reportsCard = findViewById(R.id.reports);
         category.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDashboard.this, CategoryPage.class);
             startActivity(intent);
@@ -52,6 +53,10 @@ public class AdminDashboard extends AppCompatActivity {
         });
         requestUser.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDashboard.this, RequestUserActivity.class);
+            startActivity(intent);
+        });
+        reportsCard.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboard.this, AdminReport.class);
             startActivity(intent);
         });
     }

@@ -40,9 +40,15 @@ public interface UserApi {
     @GET("post/requested-post")
     Call<List<Object>> getUserPost(@Query("email") String email);
 
+    @GET("post/requested-post-user")
+    Call<List<Object>> getUserPagePost(@Query("email") String email);
+
     @GET("auth/getUserDetails")
     Call<Object> getUserDetails(@Query("email") String email);
 
     @GET("post/user-pending-post")
     Call<List<String>> getPendingPostList(@Query("email") String email);
+
+    @GET("post/dashboard-count")
+    Call<Object> getAdminCount();
 }

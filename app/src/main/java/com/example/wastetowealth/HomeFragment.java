@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,9 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
                         shopFetch.setImages(imagesList);
                         userPostCards.add(shopFetch);
                     }
-                    courseRV.getAdapter().notifyDataSetChanged();
+                    if (courseRV.getAdapter() != null) {
+                        courseRV.getAdapter().notifyDataSetChanged();
+                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to fetch categories" + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -104,6 +107,8 @@ public class HomeFragment extends Fragment implements UserPostCardRecyclerAdapte
 
     }
     private void setupRecyclerView() {
+        Log.d("Home","Check List" + userPostCards);
+
         UserPostCardRecyclerAdapter courseAdapter = new UserPostCardRecyclerAdapter(getContext(), userPostCards);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
         courseAdapter.setOnItemClickListener(this); // Pass 'this' here

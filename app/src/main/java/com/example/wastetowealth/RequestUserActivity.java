@@ -38,10 +38,7 @@ public class RequestUserActivity extends AppCompatActivity implements RequestUse
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_user);
         initSet();
-        if(!(userModelArrayList.size() > 0)) {
-            Toast.makeText(RequestUserActivity.this, "Go back to dashboard", Toast.LENGTH_SHORT).show();
 
-        }
     }
 
     private void initSet() {
@@ -88,6 +85,10 @@ public class RequestUserActivity extends AppCompatActivity implements RequestUse
                         userModelArrayList.add(shopFetch);
                     }
                     categoryRV.getAdapter().notifyDataSetChanged();
+                    if(!(userModelArrayList.size() > 0)) {
+                        Toast.makeText(RequestUserActivity.this, "Go back to dashboard", Toast.LENGTH_SHORT).show();
+
+                    }
                 } else {
                     Toast.makeText(RequestUserActivity.this, "Failed to fetch categories" + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -104,6 +105,7 @@ public class RequestUserActivity extends AppCompatActivity implements RequestUse
 
     @Override
     public void onAcceptClick(int position) {
+        System.out.println("hello world");
         ShopRegisterFetch requestUserModel = userModelArrayList.get(position);
         String status = "Approve";
         updateShopRequest(requestUserModel, status);
@@ -112,10 +114,11 @@ public class RequestUserActivity extends AppCompatActivity implements RequestUse
 
     @Override
     public void onRejectClick(int position) {
+        System.out.println("hello world guys");
         ShopRegisterFetch requestUserModel = userModelArrayList.get(position);
         String status = "Reject";
         updateShopRequest(requestUserModel, status);
-        Toast.makeText(RequestUserActivity.this, "Rejected : " + requestUserModel.getShopName(),Toast.LENGTH_SHORT);
+        Toast.makeText(RequestUserActivity.this, "Rejected : " + requestUserModel.getShopName(),Toast.LENGTH_SHORT).show();
     }
 
     private void updateShopRequest(ShopRegisterFetch requestUserModel, String status) {

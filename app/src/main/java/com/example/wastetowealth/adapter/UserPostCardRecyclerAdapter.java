@@ -47,6 +47,9 @@ public class UserPostCardRecyclerAdapter extends RecyclerView.Adapter<UserPostCa
 
     @Override
     public void onBindViewHolder(@NonNull UserPostViewHolder holder, int position) {
+        if (userPostCardsList == null || userPostCardsList.isEmpty()) {
+            return; // Return if list is empty or null
+        }
         final int currentPosition = holder.getAdapterPosition();
         PostUserData userPostCard = userPostCardsList.get(currentPosition);
         Picasso.get()
@@ -78,10 +81,9 @@ public class UserPostCardRecyclerAdapter extends RecyclerView.Adapter<UserPostCa
         });
     }
 
-
     @Override
     public int getItemCount() {
-        return userPostCardsList.size();
+        return userPostCardsList == null ? 0 : userPostCardsList.size();
     }
 
     public class UserPostViewHolder extends RecyclerView.ViewHolder {

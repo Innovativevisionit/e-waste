@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Admin.AdminReport"
+            android:exported="false" />
+        <activity
             android:name=".DynamicUserPost"
             android:exported="false" />
         <activity
@@ -71,9 +74,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity
-         android:name=".DashboardActivity"
-         android:exported="false" />
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DynamicStoreCard" />
         <activity android:name=".PostMainScreen" />

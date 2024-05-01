@@ -58,7 +58,7 @@ public class SearchFragment extends Fragment implements UserPostRecycler.OnItemC
         UserApi apiService = retrofitService.getRetrofit().create(UserApi.class);
         MySharedPreferences sharedPreferences = MySharedPreferences.getInstance(getContext());
         String email = sharedPreferences.getString("email", "Default");
-        apiService.getUserPost(email).enqueue(new Callback<List<Object>>() {
+        apiService.getUserPagePost(email).enqueue(new Callback<List<Object>>() {
             @Override
             public void onResponse(Call<List<Object>> call, Response<List<Object>> response) {
                 if (response.isSuccessful()) {

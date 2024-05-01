@@ -28,14 +28,14 @@ public class RequestUserAdapter extends RecyclerView.Adapter<RequestUserAdapter.
 
     @NonNull
     @Override
-    public RequestUserAdapter.CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.request_user_card, parent, false);
-        return new RequestUserAdapter.CategoryViewHolder(view);
+        return new CategoryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RequestUserAdapter.CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         ShopRegisterFetch requestUserModel = categoryList.get(position);
         holder.bind(requestUserModel);
     }
@@ -45,9 +45,9 @@ public class RequestUserAdapter extends RecyclerView.Adapter<RequestUserAdapter.
         return categoryList.size();
     }
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView name,location,contactno;
+        TextView name, location, contactno;
         ImageButton accept, reject;
 
         public CategoryViewHolder(@NonNull View itemView) {
@@ -57,15 +57,31 @@ public class RequestUserAdapter extends RecyclerView.Adapter<RequestUserAdapter.
             contactno = itemView.findViewById(R.id.contactno);
             accept = itemView.findViewById(R.id.accept);
             reject = itemView.findViewById(R.id.reject);
+
+            accept.setOnClickListener(this);
+            reject.setOnClickListener(this);
         }
+
         public void bind(ShopRegisterFetch requestUserModel) {
-            // Set category name
             name.setText(requestUserModel.getShopName());
             location.setText(requestUserModel.getLocation());
             contactno.setText(requestUserModel.getContactNo());
         }
 
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                if (v.getId() == R.id.accept) {
+                    onAcceptRejectClickListener.onAcceptClick(position);
+                } else if (v.getId() == R.id.reject) {
+                    onAcceptRejectClickListener.onRejectClick(position);
+                }
+            }
+        }
+
     }
+
     public interface OnAcceptRejectClickListener {
         void onAcceptClick(int position);
         void onRejectClick(int position);
